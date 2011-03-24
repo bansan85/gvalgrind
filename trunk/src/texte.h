@@ -1,5 +1,5 @@
 /*
- * 2lgc_code : calcul de résistance des matériaux selon les normes Eurocodes
+ * gvalgrind : représentation graphique d'un rapport en format XML de valgrind
  * Copyright (C) 2011
  *
  * This program is free software: you can redistribute it and/or modify
