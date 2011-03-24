@@ -16,14 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __ERREURS_H
-#define __ERREURS_H
+#ifndef __STRUCT_H
+#define __STRUCT_H
 
-#include <stdlib.h>
-#include <stdio.h>
-
-// Pour les erreurs de programmes
-#define BUG(X) ({free((int*)1); return X;})
-#define BUGTEXTE(X, ...) ({printf(__VA_ARGS__); free((int*)1); return X;})
+typedef struct __Projet
+{
+	char		*nom_fichier;
+	GtkTreeStore	*tree_store;
+	GtkTreeView	*tree_view;
+	xmlDocPtr	document;
+} Projet;
 
 #endif
