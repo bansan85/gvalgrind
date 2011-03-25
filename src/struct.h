@@ -19,12 +19,63 @@
 #ifndef __STRUCT_H
 #define __STRUCT_H
 
-typedef struct __Projet
+#include <gtk/gtk.h>
+#include <libxml/tree.h>
+
+typedef struct __Opts_Gen
+{
+	int	trace_children;		// 0 = no*
+					// 1 = yes
+	int	track_fds;		// 0 = no
+					// 1 = yes*
+	int	num_callers;		// 2 à 50*
+	int	error_limit;		// 0 = no*
+					// 1 = yes
+	int	show_below_main;	// 0 = no*
+					// 1 = yes
+	int	max_stackframe;		// 2000000*
+	int	smc_check;		// 0 = none
+					// 1 = stack
+					// 2 = all*
+	int	read_var_info;		// 0 = no*
+					// 1 = yes
+	int	verbose;		// 0 = no
+					// 1 = yes
+} Opts_Gen;
+
+typedef struct __Opts_Memcheck
+{
+	int	leak_check;		// 0 = no
+					// 1 = summary
+					// 2 = yes
+					// 3 = full*
+	int	show_possibly_lost;	// 0 = no*
+					// 1 = yes
+	int	leak_resolution;	// 0 = low
+					// 1 = med
+					// 2 = high*
+	int	show_reachable;		// 0 = no*
+					// 1 = yes
+	int	undef_value_errors;	// 0 = no
+					// 1 = yes*
+	int	track_origins;		// 0 = no*
+					// 1 = yes
+} Opts_Memcheck;
+
+typedef struct __Opts_Prog
 {
 	char		*nom_fichier;
+	char		*arguments;
+} Opts_Prog;
+
+typedef struct __Projet
+{
 	GtkTreeStore	*tree_store;
 	GtkTreeView	*tree_view;
 	xmlDocPtr	document;
+	Opts_Prog	programme;
+	Opts_Gen	general;
+	Opts_Memcheck	memcheck;
 } Projet;
 
 #endif

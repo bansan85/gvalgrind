@@ -35,12 +35,11 @@ aclocal
 libtoolize
 automake --add-missing --copy
 autoconf
-CFLAGS="-march=nocona -O0 -g3 -ggdb3 -pipe -ftracer -fsched2-use-traces -Wl,--as-needed -Wl,-O0 -fno-inline -Wall -Wextra -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE -pg -fprofile-arcs -ftest-coverage" ./configure --prefix=/usr/local
+CFLAGS="-march=nocona -O0 -g3 -ggdb3 -pipe -ftracer -fsched2-use-traces -Wl,--as-needed -Wl,-O0 -fno-inline -Wall -Wextra -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE" ./configure --prefix=/usr/local
 make -j3
 make install
 NOTA IMPORTANT :
 	-pg -fprofile-arcs -ftest-coverage sont des options de deboguage qui ne doivent pas être mises pour une utilisation courante.
-	--with-gtk : compilation de l'interface graphique et du support GTK.
 
 si le programme ne permet pas une compilation sans erreur par la procédure ci-dessus :
 1) vérifier le message d'erreur, il s'agit peut-être d'une application dont dépend le logiciel qui est non installée
