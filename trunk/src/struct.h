@@ -31,8 +31,8 @@ typedef struct __Opts_Gen
 	int	num_callers;		// 2 à 50*
 	int	error_limit;		// 0 = no*
 					// 1 = yes
-	int	show_below_main;	// 0 = no*
-					// 1 = yes
+	int	show_below_main;	// 0 = no
+					// 1 = yes*
 	int	max_stackframe;		// 2000000*
 	int	smc_check;		// 0 = none
 					// 1 = stack
@@ -40,8 +40,18 @@ typedef struct __Opts_Gen
 	int	read_var_info;		// 0 = no*
 					// 1 = yes
 	int	verbose;		// 0 = no
-					// 1 = yes
+					// 1 = yes*
 } Opts_Gen;
+
+#define GVAL_DEFAUT_TRACE_CHILDREN		0
+#define GVAL_DEFAUT_TRACK_FDS			1
+#define GVAL_DEFAUT_NUM_CALLERS			50
+#define GVAL_DEFAUT_ERROR_LIMIT			0
+#define GVAL_DEFAUT_SHOW_BELOW_MAIN		1
+#define GVAL_DEFAUT_MAX_STACKFRAME		2000000
+#define GVAL_DEFAUT_SMC_CHECK			2
+#define GVAL_DEFAUT_READ_VAR_INFO		0
+#define GVAL_DEFAUT_VERBOSE			1
 
 typedef struct __Opts_Memcheck
 {
@@ -49,23 +59,33 @@ typedef struct __Opts_Memcheck
 					// 1 = summary
 					// 2 = yes
 					// 3 = full*
-	int	show_possibly_lost;	// 0 = no*
-					// 1 = yes
+	int	show_possibly_lost;	// 0 = no
+					// 1 = yes*
 	int	leak_resolution;	// 0 = low
 					// 1 = med
 					// 2 = high*
-	int	show_reachable;		// 0 = no*
-					// 1 = yes
+	int	show_reachable;		// 0 = no
+					// 1 = yes*
 	int	undef_value_errors;	// 0 = no
 					// 1 = yes*
 	int	track_origins;		// 0 = no*
 					// 1 = yes
 } Opts_Memcheck;
 
+#define GVAL_DEFAUT_LEAK_CHECK		3
+#define GVAL_DEFAUT_SHOW_POSSIBLY_LOST	1
+#define GVAL_DEFAUT_LEAK_RESOLUTION	2
+#define GVAL_DEFAUT_SHOW_REACHABLE	1
+#define GVAL_DEFAUT_UNDEF_VALUE_ERRORS	1
+#define GVAL_DEFAUT_TRACK_ORIGINS	0
+
 typedef struct __Opts_Prog
 {
+	char		*environnement;
 	char		*nom_fichier;
 	char		*arguments;
+	char		*dossier_courant;
+	char		*enregistrement;
 } Opts_Prog;
 
 typedef struct __Projet
@@ -76,6 +96,7 @@ typedef struct __Projet
 	Opts_Prog	programme;
 	Opts_Gen	general;
 	Opts_Memcheck	memcheck;
+	int		modifie;
 } Projet;
 
 #endif

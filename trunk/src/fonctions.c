@@ -149,6 +149,8 @@ int enregistrer_projet(char *nom_fichier, Projet *projet)
 		{
 			char	contenu[1024];
 			
+			xmlSetProp(n0, BAD_CAST "dossier_courant", BAD_CAST projet->programme.dossier_courant);
+			xmlSetProp(n0, BAD_CAST "environnement", BAD_CAST projet->programme.environnement);
 			xmlSetProp(n0, BAD_CAST "nom_fichier", BAD_CAST projet->programme.nom_fichier);
 			xmlSetProp(n0, BAD_CAST "arguments", BAD_CAST projet->programme.arguments);
 			sprintf(contenu, "%d", projet->general.trace_children);
@@ -186,6 +188,15 @@ int enregistrer_projet(char *nom_fichier, Projet *projet)
 	
 	xmlSaveFileEnc(nom_fichier, projet->document, "UTF-8");
 	
+	if (projet->programme.enregistrement != NULL)
+		free(projet->programme.enregistrement);
+	projet->programme.enregistrement = malloc(sizeof(char)*strlen((nom_fichier)+1));
+	if (projet->programme.enregistrement == NULL)
+		BUGTEXTE(-1, gettext("Erreur d'allocation mémoire.\n"));
+	strcpy(projet->programme.enregistrement, nom_fichier);
+	
+	projet->modifie = 0;
+	
 	return 0;
 }
 
@@ -200,73 +211,252 @@ int enregistrer_projet(char *nom_fichier, Projet *projet)
 int ouvrir_projet(char *nom_fichier, Projet *projet)
 {
 	xmlNodePtr	racine, n0;
+	xmlDocPtr	nouveau_projet;
+	int		vide = 1;
 	
-	projet->document = xmlParseFile(nom_fichier);
+	// On passe par une variable temporaire afin de ne pas corrompre le projet en cours si l'ouverture échoue.
+	nouveau_projet = xmlParseFile(nom_fichier);
+	if (nouveau_projet == NULL)
+	{
+		printf(gettext("Le fichier spécifié n'est pas dans un format XML.\n"));
+		return -1;
+	}
 	
-	racine = xmlDocGetRootElement(projet->document);
+	racine = xmlDocGetRootElement(nouveau_projet);
 	for (n0 = racine; n0 != NULL; n0 = n0->next)
 	{
 		if ((n0->type == XML_ELEMENT_NODE) && (strcmp((char*)n0->name, "erreur") == 0))
 		{
 			xmlChar	*contenu;
 			
+			projet->document = nouveau_projet;
+			vide = 0;
+			
+			contenu = xmlGetProp(n0, BAD_CAST "dossier_courant");
+			if (contenu != NULL)
+			{
+				projet->programme.dossier_courant = malloc(sizeof(char)*(strlen((char*)contenu)+1));
+				strcpy(projet->programme.dossier_courant, (char *)contenu);
+				xmlFree(contenu);
+			}
+			else
+			{
+				projet->programme.dossier_courant = malloc(sizeof(char));
+				strcpy(projet->programme.dossier_courant, "");
+			}
+			
+			contenu = xmlGetProp(n0, BAD_CAST "environnement");
+			if (contenu != NULL)
+			{
+				projet->programme.environnement = malloc(sizeof(char)*(strlen((char*)contenu)+1));
+				strcpy(projet->programme.environnement, (char *)contenu);
+				xmlFree(contenu);
+			}
+			else
+			{
+				projet->programme.environnement = malloc(sizeof(char));
+				strcpy(projet->programme.environnement, "");
+			}
+			
 			contenu = xmlGetProp(n0, BAD_CAST "nom_fichier");
-			projet->programme.nom_fichier = malloc(sizeof(char)*(strlen((char*)contenu)+1));
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->programme.nom_fichier = malloc(sizeof(char)*(strlen((char*)contenu)+1));
+				strcpy(projet->programme.nom_fichier, (char *)contenu);
+				xmlFree(contenu);
+			}
+			else
+			{
+				projet->programme.nom_fichier = malloc(sizeof(char));
+				strcpy(projet->programme.nom_fichier, "");
+			}
+			
 			contenu = xmlGetProp(n0, BAD_CAST "arguments");
-			projet->programme.arguments = malloc(sizeof(char)*(strlen((char*)contenu)+1));
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->programme.arguments = malloc(sizeof(char)*(strlen((char*)contenu)+1));
+				strcpy(projet->programme.arguments, (char *)contenu);
+				xmlFree(contenu);
+			}
+			else
+			{
+				projet->programme.arguments = malloc(sizeof(char));
+				strcpy(projet->programme.arguments, "");
+			}
+			
 			contenu = xmlGetProp(n0, BAD_CAST "trace_children");
-			projet->general.trace_children = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.trace_children = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.trace_children = GVAL_DEFAUT_TRACE_CHILDREN;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "track_fds");
-			projet->general.track_fds = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.track_fds = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.track_fds = GVAL_DEFAUT_TRACK_FDS;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "num_callers");
-			projet->general.num_callers = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.num_callers = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.num_callers = GVAL_DEFAUT_NUM_CALLERS;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "error_limit");
-			projet->general.error_limit = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.error_limit = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.error_limit = GVAL_DEFAUT_ERROR_LIMIT;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "show_below_main");
-			projet->general.show_below_main = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.show_below_main = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.show_below_main = GVAL_DEFAUT_SHOW_BELOW_MAIN;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "max_stackframe");
-			projet->general.max_stackframe = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.max_stackframe = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.max_stackframe = GVAL_DEFAUT_MAX_STACKFRAME;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "smc_check");
-			projet->general.smc_check = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.smc_check = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.smc_check = GVAL_DEFAUT_SMC_CHECK;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "read_var_info");
-			projet->general.read_var_info = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.read_var_info = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.read_var_info = GVAL_DEFAUT_READ_VAR_INFO;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "verbose");
-			projet->general.verbose = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->general.verbose = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->general.verbose = GVAL_DEFAUT_VERBOSE;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "leak_check");
-			projet->memcheck.leak_check = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->memcheck.leak_check = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->memcheck.leak_check = GVAL_DEFAUT_LEAK_CHECK;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "show_possibly_lost");
-			projet->memcheck.show_possibly_lost = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->memcheck.show_possibly_lost = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->memcheck.show_possibly_lost = GVAL_DEFAUT_SHOW_POSSIBLY_LOST;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "leak_resolution");
-			projet->memcheck.leak_resolution = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->memcheck.leak_resolution = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->memcheck.leak_resolution = GVAL_DEFAUT_LEAK_RESOLUTION;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "show_reachable");
-			projet->memcheck.show_reachable = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->memcheck.show_reachable = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->memcheck.show_reachable = GVAL_DEFAUT_SHOW_REACHABLE;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "undef_value_errors");
-			projet->memcheck.undef_value_errors = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->memcheck.undef_value_errors = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->memcheck.undef_value_errors = GVAL_DEFAUT_UNDEF_VALUE_ERRORS;
+			
 			contenu = xmlGetProp(n0, BAD_CAST "track_origins");
-			projet->memcheck.track_origins = atoi((char*)contenu);
-			xmlFree(contenu);
+			if (contenu != NULL)
+			{
+				projet->memcheck.track_origins = atoi((char*)contenu);
+				xmlFree(contenu);
+			}
+			else
+				projet->memcheck.track_origins = GVAL_DEFAUT_TRACK_ORIGINS;
 			
 			ajout_erreur(n0, projet->tree_store);
 		}
 	}
 	
+	if (vide == 1)
+	{
+		printf(gettext("Le document sélectionné ne semble pas contenir d'information compatible avec gvalgrind.\n"));
+		return -1;
+	}
+	else
+		projet->modifie = 0;
+	
+	if (projet->programme.enregistrement != NULL)
+		free(projet->programme.enregistrement);
+	projet->programme.enregistrement = malloc(sizeof(char)*strlen((nom_fichier)+1));
+	if (projet->programme.enregistrement == NULL)
+		BUGTEXTE(-1, gettext("Erreur d'allocation mémoire.\n"));
+	strcpy(projet->programme.enregistrement, nom_fichier);
+	
 	return 0;
+}
+
+/* file_exists
+ * Description : Détermine si un fichier est existant
+ * Paramètres : const char *filename : nom du fichier à vérifier
+ * Valeur renvoyée :
+ *   Existe : 0
+ *   Absent : 1
+ */
+int file_exists(const char *filename)
+{
+	FILE *file = fopen(filename, "r");
+	if (file != NULL)
+	{
+		fclose(file);
+		return 0;
+	}
+	return 1;
 }
 
 /* converti_rapport_valgrind
@@ -283,13 +473,6 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 	xmlDocPtr	doc;
 	xmlNodePtr	racine, n0, new_node;
 	
-	if (projet->programme.nom_fichier != NULL)
-		free(projet->programme.nom_fichier);
-	projet->programme.nom_fichier = malloc(sizeof(char)*(strlen(nom_fichier)+1));
-	if (projet->programme.nom_fichier == NULL)
-		BUGTEXTE(-1, gettext("Erreur d'allocation mémoire.\n"));
-
-	strcpy(projet->programme.nom_fichier, nom_fichier);
 	// On charge l'arbre en mémoire
 	doc = xmlParseFile(nom_fichier);
 	if (doc == NULL)
@@ -321,7 +504,7 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 					xmlChar		*contenu, *nom_erreur;
 					int		trouve = 0;
 					
-					// On commence par rechercher la nature de l'erreur qui est contenu dans le noeud "kinc"
+					// On commence par rechercher la nature de l'erreur qui est contenu dans le noeud "kind"
 					do
 					{
 						if (n2->type == XML_ELEMENT_NODE)
@@ -523,27 +706,32 @@ int init_projet(Projet *projet)
 		BUGTEXTE(-5, gettext("Erreur d'allocation mémoire.\n"));
 	xmlDocSetRootElement(projet->document, new_node);
 	
+	projet->programme.dossier_courant = NULL;
+	projet->programme.environnement = NULL;
+	projet->programme.enregistrement = NULL;
 	projet->programme.nom_fichier = NULL;
 	projet->programme.arguments = NULL;
 	
 	// Initialisation des options générales à valgrind
-	projet->general.trace_children = 0;
-	projet->general.track_fds = 1;
-	projet->general.num_callers = 50;
-	projet->general.error_limit = 0;
-	projet->general.show_below_main = 1;
-	projet->general.max_stackframe = 2000000;
-	projet->general.smc_check = 2;
-	projet->general.read_var_info = 0;
-	projet->general.verbose = 1;
+	projet->general.trace_children = GVAL_DEFAUT_TRACE_CHILDREN;
+	projet->general.track_fds = GVAL_DEFAUT_TRACK_FDS;
+	projet->general.num_callers = GVAL_DEFAUT_NUM_CALLERS;
+	projet->general.error_limit = GVAL_DEFAUT_ERROR_LIMIT;
+	projet->general.show_below_main = GVAL_DEFAUT_SHOW_BELOW_MAIN;
+	projet->general.max_stackframe = GVAL_DEFAUT_MAX_STACKFRAME;
+	projet->general.smc_check = GVAL_DEFAUT_SMC_CHECK;
+	projet->general.read_var_info = GVAL_DEFAUT_READ_VAR_INFO;
+	projet->general.verbose = GVAL_DEFAUT_VERBOSE;
 	
 	// Initialisation des options de memcheck
-	projet->memcheck.leak_check = 3;
-	projet->memcheck.show_possibly_lost = 1;
-	projet->memcheck.leak_resolution = 2;
-	projet->memcheck.show_reachable = 1;
-	projet->memcheck.undef_value_errors = 1;
-	projet->memcheck.track_origins = 0;
+	projet->memcheck.leak_check = GVAL_DEFAUT_LEAK_CHECK;
+	projet->memcheck.show_possibly_lost = GVAL_DEFAUT_SHOW_POSSIBLY_LOST;
+	projet->memcheck.leak_resolution = GVAL_DEFAUT_LEAK_RESOLUTION;
+	projet->memcheck.show_reachable = GVAL_DEFAUT_SHOW_REACHABLE;
+	projet->memcheck.undef_value_errors = GVAL_DEFAUT_UNDEF_VALUE_ERRORS;
+	projet->memcheck.track_origins = GVAL_DEFAUT_TRACK_ORIGINS;
+	
+	projet->modifie = 0;
 	
 	gtk_tree_store_clear(projet->tree_store);
 	
