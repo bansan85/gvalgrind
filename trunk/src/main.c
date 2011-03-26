@@ -252,11 +252,11 @@ int main(int argc, char *argv[])
 	init_projet(&projet);
 	
 	// On vérifie qu'un nom de fichier est passé en argument
-/*	if (argc == 2)
+	if ((argc == 2) && (file_exists(argv[1]) == 0))
 	{
-		if (charge_projet(argv[1], &projet) != 0)
+		if (ouvrir_projet(argv[1], &projet) != 0)
 			BUG(-2);
-	}*/
+	}
 	
 	pCellRenderer = gtk_cell_renderer_text_new();
 	pColumn = gtk_tree_view_column_new_with_attributes(gettext("Texte"), pCellRenderer, "text", 0, NULL);
