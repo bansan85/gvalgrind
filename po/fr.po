@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gvalgrind 0.0.0.2\n"
 "Report-Msgid-Bugs-To: devel@2lgc.org\n"
-"POT-Creation-Date: 2011-03-26 00:13+0100\n"
+"POT-Creation-Date: 2011-03-26 15:52+0100\n"
 "PO-Revision-Date: 2011-03-25 12:44+0100\n"
 "Last-Translator: LE GARREC Vincent <vlg@2lgc.org>\n"
 "Language-Team: French\n"
@@ -185,39 +185,181 @@ msgstr "\t-h, --help : affiche le présent menu\n"
 msgid "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 msgstr "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 
-#: src/options.c:259 src/options.c:280 src/options.c:290 src/options.c:299
-#: src/options.c:311 src/options.c:320 src/options.c:328 src/options.c:333
-#: src/options.c:344 src/options.c:353 src/options.c:365 src/options.c:374
-#: src/options.c:382 src/options.c:387 src/options.c:398 src/options.c:407
-#: src/options.c:416 src/options.c:428 src/options.c:437 src/options.c:449
-#: src/options.c:463 src/options.c:472 src/options.c:481 src/options.c:490
-#: src/options.c:502 src/options.c:511 src/options.c:523 src/options.c:532
-#: src/options.c:541 src/options.c:553 src/options.c:562 src/options.c:574
-#: src/options.c:583 src/options.c:595 src/options.c:604 src/options.c:613
-#: src/options.c:619 src/options.c:628 src/fonctions.c:290 src/fonctions.c:305
-#: src/fonctions.c:523
+#: src/options.c:236 src/options.c:293 src/main.c:64
+msgid "Ouvrir..."
+msgstr ""
+
+#: src/options.c:275 src/options.c:332 src/options.c:354 src/options.c:365
+#: src/options.c:373 src/options.c:383 src/options.c:392 src/options.c:404
+#: src/options.c:413 src/options.c:421 src/options.c:426 src/options.c:437
+#: src/options.c:446 src/options.c:458 src/options.c:467 src/options.c:475
+#: src/options.c:480 src/options.c:491 src/options.c:500 src/options.c:509
+#: src/options.c:521 src/options.c:530 src/options.c:542 src/options.c:556
+#: src/options.c:565 src/options.c:574 src/options.c:583 src/options.c:595
+#: src/options.c:604 src/options.c:616 src/options.c:625 src/options.c:634
+#: src/options.c:646 src/options.c:655 src/options.c:667 src/options.c:676
+#: src/options.c:688 src/options.c:697 src/options.c:706 src/options.c:712
+#: src/options.c:721 src/fonctions.c:475 src/fonctions.c:693
 msgid "Erreur d'allocation mémoire.\n"
 msgstr "Erreur d'allocation mémoire.\n"
 
-#: src/main.c:163
+#: src/options.c:735
+#, c-format
+msgid ""
+"Le rapport de valgrind est introuvable.\n"
+"L'exécution s'est-elle correctement déroulée ?\n"
+msgstr ""
+
+#: src/options.c:795
+msgid "Options du projet"
+msgstr ""
+
+#: src/options.c:806
+msgid "Programme"
+msgstr ""
+
+#: src/options.c:809
+msgid "Dossier courant : "
+msgstr ""
+
+#: src/options.c:818
+msgid "Environnement : "
+msgstr ""
+
+#: src/options.c:826
+msgid "Emplacement : "
+msgstr ""
+
+#: src/options.c:835
+msgid "Arguments : "
+msgstr ""
+
+#: src/options.c:845
+msgid "Général"
+msgstr ""
+
+#: src/options.c:850 src/options.c:859 src/options.c:875 src/options.c:884
+#: src/options.c:910 src/options.c:919 src/options.c:933 src/options.c:944
+#: src/options.c:963 src/options.c:972 src/options.c:981
+msgid "non"
+msgstr ""
+
+#: src/options.c:851 src/options.c:860 src/options.c:876 src/options.c:885
+#: src/options.c:911 src/options.c:920 src/options.c:935 src/options.c:945
+#: src/options.c:964 src/options.c:973 src/options.c:982
+msgid "oui"
+msgstr ""
+
+#: src/options.c:900
+msgid "aucun"
+msgstr ""
+
+#: src/options.c:901
+msgid "tas"
+msgstr ""
+
+#: src/options.c:902
+msgid "tout"
+msgstr ""
+
+#: src/options.c:934
+msgid "sommaire"
+msgstr ""
+
+#: src/options.c:936
+msgid "complet"
+msgstr ""
+
+#: src/options.c:953
+msgid "bas"
+msgstr ""
+
+#: src/options.c:954
+msgid "moyen"
+msgstr ""
+
+#: src/options.c:955
+msgid "haut"
+msgstr ""
+
+#: src/main.c:98
+msgid "Enregistrer..."
+msgstr ""
+
+#: src/main.c:160
+msgid ""
+"Des modifications ont été apportées au projet.\n"
+"Que souhaitez-vous faire ?"
+msgstr ""
+
+#: src/main.c:162 src/main.c:258
+msgid "Quitter"
+msgstr ""
+
+#: src/main.c:221
 msgid "Impossible d'initialiser gtk\n"
 msgstr "Impossible d'initialiser gtk\n"
+
+#: src/main.c:243
+msgid "Texte"
+msgstr ""
+
+#: src/main.c:249
+msgid "Nouveau"
+msgstr ""
+
+#: src/main.c:252
+msgid "Ouvrir projet valgrind..."
+msgstr ""
+
+#: src/main.c:255
+msgid "Enregistrer projet valgrind..."
+msgstr ""
+
+#: src/main.c:261
+msgid "Fichier"
+msgstr ""
+
+#: src/main.c:266
+#, fuzzy
+msgid "Options..."
+msgstr "Options :\n"
+
+#: src/main.c:269
+msgid "Exécuter valgrind"
+msgstr ""
+
+#: src/main.c:272
+msgid "Projet"
+msgstr ""
 
 #: src/fonctions.c:47
 msgid "Paramètres invalides.\n"
 msgstr "Paramètres invalides.\n"
 
 #: src/fonctions.c:60 src/fonctions.c:76 src/fonctions.c:78
-#: src/fonctions.c:121 src/fonctions.c:339
+#: src/fonctions.c:121 src/fonctions.c:509
 #, c-format
 msgid "Propriété '%s' inconnue dans le noeud XML.\n"
 msgstr "Propriété '%s' inconnue dans le noeud XML.\n"
 
-#: src/fonctions.c:296
+#: src/fonctions.c:214
+#, c-format
+msgid "Le fichier spécifié n'est pas dans un format XML.\n"
+msgstr ""
+
+#: src/fonctions.c:422
+#, c-format
+msgid ""
+"Le document sélectionné ne semble pas contenir d'information compatible avec "
+"gvalgrind.\n"
+msgstr ""
+
+#: src/fonctions.c:466
 #, c-format
 msgid "Impossible d'ouvrir le fichier '%s'.\n"
 msgstr "Impossible d'ouvrir le fichier '%s'.\n"
 
-#: src/fonctions.c:301
+#: src/fonctions.c:471
 msgid "Le document est vide.\n"
 msgstr "Le document est vide.\n"

@@ -37,10 +37,16 @@
  */
 void gtk_window_destroy(GtkWidget *pWidget __attribute__((unused)), Projet *projet)
 {
+	if (projet->programme.enregistrement != NULL)
+		free(projet->programme.enregistrement);
+	if (projet->programme.environnement != NULL)
+		free(projet->programme.environnement);
 	if (projet->programme.nom_fichier != NULL)
 		free(projet->programme.nom_fichier);
 	if (projet->programme.arguments != NULL)
 		free(projet->programme.arguments);
+	if (projet->programme.dossier_courant != NULL)
+		free(projet->programme.dossier_courant);
 	xmlFreeDoc(projet->document);
 	gtk_main_quit();
 	return;
@@ -57,7 +63,7 @@ void main_ouvrir(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	GtkWidget	*pFileSelection;
 	gchar		*sChemin;
 	
-	pFileSelection = gtk_file_chooser_dialog_new("Ouvrir...", NULL, GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+	pFileSelection = gtk_file_chooser_dialog_new(gettext("Ouvrir..."), NULL, GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
 	switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
@@ -88,10 +94,24 @@ void main_ouvrir(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
  */
 void main_enregistrer(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 {
+	if (projet->programme.enregistrement != NULL)
+		enregistrer_projet(projet->programme.enregistrement, projet);
+	
+	return;
+}
+
+/* main_enregistrer_sous
+ * Description : Ouvre une fenêtre de sélection et enregistre le log valgrind demandé
+ * Paramètres : GtkMenuItem *menuitem : composant GtkMenuItem à l'origine de la demande
+ *            : Projet *projet : la variable projet
+ * Valeur renvoyée : Aucune
+ */
+void main_enregistrer_sous(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
+{
 	GtkWidget	*pFileSelection;
 	gchar		*sChemin;
 	
-	pFileSelection = gtk_file_chooser_dialog_new("Enregistrer...", NULL, GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
+	pFileSelection = gtk_file_chooser_dialog_new(gettext("Enregistrer..."), NULL, GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
 	switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
@@ -137,6 +157,63 @@ void tree_view_row_expanded(GtkTreeView *tree_view, GtkTreeIter *iter, GtkTreePa
 	return;
 }
 
+/* gtk_window_demande_confirmation
+ * Description : Demande une confirmation pour quitter l'application si des modifications
+ *             : non enregistrées ont été effectuées dans le projet en cours
+ * Paramètres : GtkWidget *widget : composant Widget
+ *            : GdkEvent *event : nature de l'évènement
+ *            : Projet *projet : la variable projet
+ * Valeur renvoyée :
+ *   Quitter : FALSE
+ *   Ne pas quitter : TRUE
+ */
+gboolean gtk_window_demande_confirmation(GtkWidget *widget __attribute__((unused)), GdkEvent *event __attribute__((unused)), Projet *projet)
+{
+	GtkWidget	*dialog = NULL;
+	GtkResponseType	response = GTK_RESPONSE_CANCEL;
+	if (projet->modifie != 0)
+	{
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, gettext("Des modifications ont été apportées au projet.\nQue souhaitez-vous faire ?"));
+		gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_QUIT, GTK_RESPONSE_CLOSE, GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+		gtk_window_set_title(GTK_WINDOW(dialog), gettext("Quitter"));
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+		switch (response)
+		{
+			// On annule la fermeture de l'application
+			case GTK_RESPONSE_CANCEL : 
+			{
+				return TRUE;
+				break;
+			}
+			// On ferme l'application en enregistrant les modifications
+			case GTK_RESPONSE_ACCEPT :
+			{
+				if (projet->programme.enregistrement != NULL)
+					main_enregistrer(NULL, projet);
+				else
+					main_enregistrer_sous(NULL, projet);
+				return FALSE;
+				break;
+			}
+			// On ferme l'application sans enregistrer les modifications
+			case GTK_RESPONSE_CLOSE :
+			{
+				return FALSE;
+				break;
+			}
+			// On annule la fermeture de l'application
+			default :
+			{
+				return TRUE;
+				break;
+			}
+		}
+	}
+	else
+		return FALSE;
+}
+
 /* main
  * Description : Fonction principale de l'application
  * Paramètres : int argc : nom d'arguments
@@ -166,6 +243,7 @@ int main(int argc, char *argv[])
 	mainwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size(GTK_WINDOW(mainwindow), 600, 400);
 	g_signal_connect(GTK_WINDOW(mainwindow), "destroy", G_CALLBACK(gtk_window_destroy), &projet);
+	g_signal_connect(GTK_WINDOW(mainwindow), "delete-event", G_CALLBACK(gtk_window_demande_confirmation), &projet);
 	// Le tree_view
 	projet.tree_store = gtk_tree_store_new(1, G_TYPE_STRING);
 	projet.tree_view = (GtkTreeView*)gtk_tree_view_new_with_model(GTK_TREE_MODEL(projet.tree_store));
@@ -181,33 +259,39 @@ int main(int argc, char *argv[])
 	}*/
 	
 	pCellRenderer = gtk_cell_renderer_text_new();
-	pColumn = gtk_tree_view_column_new_with_attributes("Texte", pCellRenderer, "text", 0, NULL);
+	pColumn = gtk_tree_view_column_new_with_attributes(gettext("Texte"), pCellRenderer, "text", 0, NULL);
 	gtk_tree_view_append_column(projet.tree_view, pColumn);
 	
 	// Le menu
 	pMenuBar = gtk_menu_bar_new();
 	pMenu = gtk_menu_new();
-	pMenuItem = gtk_menu_item_new_with_label("Nouveau...");
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Nouveau"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
 	g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(main_nouveau), &projet);
-	pMenuItem = gtk_menu_item_new_with_label("Ouvrir projet valgrind...");
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Ouvrir projet valgrind..."));
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
 	g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(main_ouvrir), &projet);
-	pMenuItem = gtk_menu_item_new_with_label("Enregistrer projet valgrind...");
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Enregistrer projet valgrind..."));
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
 	g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(main_enregistrer), &projet);
-	pMenuItem = gtk_menu_item_new_with_label("Fichier");
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Enregistrer sous projet valgrind..."));
+	gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
+	g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(main_enregistrer_sous), &projet);
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Quitter"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
+	g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(gtk_main_quit), &projet);
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Fichier"));
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(pMenuItem), pMenu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenuBar), pMenuItem);
 	
 	pMenu = gtk_menu_new();
-	pMenuItem = gtk_menu_item_new_with_label("Options...");
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Options..."));
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
 	g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(main_options), &projet);
-	pMenuItem = gtk_menu_item_new_with_label("Exécuter valgrind");
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Exécuter valgrind"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
 	g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(main_valgrind), &projet);
-	pMenuItem = gtk_menu_item_new_with_label("Projet");
+	pMenuItem = gtk_menu_item_new_with_label(gettext("Projet"));
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(pMenuItem), pMenu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenuBar), pMenuItem);
 	

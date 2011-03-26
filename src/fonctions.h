@@ -26,6 +26,7 @@ int init_projet(Projet *projet);
 int ajout_erreur(xmlNodePtr racine, GtkTreeStore *tree_store);
 int converti_rapport_valgrind(char *nom_fichier, Projet *projet);
 int enregistrer_projet(char *nom_fichier, Projet *projet);
+int file_exists(const char *filename);
 int ouvrir_projet(char *nom_fichier, Projet *projet);
 
 #endif
