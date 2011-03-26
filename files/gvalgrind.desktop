@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=gvalgrind
+Comment=Valgrind sous Gnome
+Categories=Development
+Exec=gvalgrind
+Terminal=false
+MimeType=application/xml
