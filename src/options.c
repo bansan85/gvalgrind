@@ -813,7 +813,7 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	else
 		pbutton = gtk_button_new_with_label(projet->programme.dossier_courant);
 	g_signal_connect(G_OBJECT(pbutton), "clicked", G_CALLBACK(entry_dossier_courant), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 0, 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 0, 1, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_table_attach (GTK_TABLE (ptable), pbutton, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
 	// Paramètres d'environnement du programme
 	plabel = gtk_label_new(gettext("Environnement : "));
@@ -821,7 +821,7 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	if (projet->programme.environnement != NULL)
 		gtk_entry_set_text(GTK_ENTRY(pentry), projet->programme.environnement);
 	g_signal_connect(G_OBJECT(pentry), "changed", G_CALLBACK(entry_environnement), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 1, 2, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 1, 2, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_table_attach (GTK_TABLE (ptable), pentry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
 	// Emplacement du programme
 	plabel = gtk_label_new(gettext("Emplacement : "));
@@ -830,7 +830,7 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	else
 		pbutton = gtk_button_new_with_label(projet->programme.nom_fichier);
 	g_signal_connect(G_OBJECT(pbutton), "clicked", G_CALLBACK(entry_nom_programme), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 2, 3, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 2, 3, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_table_attach (GTK_TABLE (ptable), pbutton, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
 	// Arguments du programme
 	plabel = gtk_label_new(gettext("Arguments : "));
@@ -838,7 +838,7 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	if (projet->programme.arguments != NULL)
 		gtk_entry_set_text(GTK_ENTRY(pentry), projet->programme.arguments);
 	g_signal_connect(G_OBJECT(pentry), "changed", G_CALLBACK(entry_arguments), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 3, 4, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 3, 4, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_table_attach (GTK_TABLE (ptable), pentry, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
 	
 	// Création de l'onglet Général
