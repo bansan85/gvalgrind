@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gvalgrind 0.0.0.2\n"
 "Report-Msgid-Bugs-To: devel@2lgc.org\n"
-"POT-Creation-Date: 2011-03-26 17:34+0100\n"
-"PO-Revision-Date: 2011-03-26 17:18+0100\n"
+"POT-Creation-Date: 2011-03-27 20:46+0200\n"
+"PO-Revision-Date: 2011-03-27 20:50+0100\n"
 "Last-Translator: LE GARREC Vincent <vlg@2lgc.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -20,9 +20,13 @@ msgstr ""
 #: src/texte.c:27
 #, c-format
 msgid "15. Disclaimer of Warranty.\n"
-msgstr ""
+msgstr "15. Déclaration d’absence de garantie. (seule la version anglaise fait foi)\n"
 
-#: src/texte.c:28 src/texte.c:37 src/texte.c:39 src/texte.c:49 src/texte.c:51
+#: src/texte.c:28
+#: src/texte.c:37
+#: src/texte.c:39
+#: src/texte.c:49
+#: src/texte.c:51
 #, c-format
 msgid "\n"
 msgstr "\n"
@@ -30,140 +34,127 @@ msgstr "\n"
 #: src/texte.c:29
 #, c-format
 msgid "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
-msgstr ""
+msgstr "IL N’Y A AUCUNE GARANTIE POUR LE PROGRAMME, DANS LES LIMITES PERMISES\n"
 
 #: src/texte.c:30
 #, c-format
-msgid ""
-"APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
-msgstr ""
+msgid "APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
+msgstr "PAR LA LOI APPLICABLE. À MOINS QUE CELA NE SOIT ÉTABLI DIFFÉREMMENT PAR ÉCRIT,\n"
 
 #: src/texte.c:31
 #, c-format
-msgid ""
-"HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n"
-msgstr ""
+msgid "HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n"
+msgstr "LES PROPRIÉTAIRES DE DROITS ET/OU LES AUTRES PARTIES FOURNISSENT LE PROGRAMME \" EN L’ÉTAT \" SANS GARANTIE\n"
 
 #: src/texte.c:32
 #, c-format
-msgid ""
-"OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
-msgstr ""
+msgid "OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
+msgstr "D’AUCUNE SORTE, QU’ELLE SOIT EXPRIMÉE OU IMPLICITE, CECI COMPRENANT, SANS SE LIMITER À CELLES-CI,\n"
 
 #: src/texte.c:33
 #, c-format
-msgid ""
-"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
-msgstr ""
+msgid "THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
+msgstr "LES GARANTIES IMPLICITES DE COMMERCIALISABILITÉ ET D’ADÉQUATION À UN OBJECTIF\n"
 
 #: src/texte.c:34
 #, c-format
-msgid ""
-"PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
-msgstr ""
+msgid "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
+msgstr "PARTICULIER. VOUS ASSUMEZ LE RISQUE ENTIER CONCERNANT LA QUALITÉ ET LES PERFORMANCES\n"
 
 #: src/texte.c:35
 #, c-format
-msgid ""
-"IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
-msgstr ""
+msgid "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
+msgstr "DU PROGRAMME. DANS L’ÉVENTUALITÉ OÙ LE PROGRAMME S’AVÉRERAIT DÉFECTUEUX, VOUS ASSUMEZ LES COÛTS DE\n"
 
 #: src/texte.c:36
 #, c-format
 msgid "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
-msgstr ""
+msgstr "TOUS LES SERVICES, RÉPARATIONS OU CORRECTIONS NÉCESSAIRES.\n"
 
 #: src/texte.c:38
 #, c-format
 msgid "16. Limitation of Liability.\n"
-msgstr ""
+msgstr "16. Limitation de responsabilité.\n"
 
 #: src/texte.c:40
 #, c-format
 msgid "IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING\n"
-msgstr ""
+msgstr "EN AUCUNE AUTRE CIRCONSTANCE QUE CELLES REQUISES PAR LA LOI APPLICABLE OU ACCORDÉES PAR ÉCRIT,\n"
 
 #: src/texte.c:41
 #, c-format
-msgid ""
-"WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS\n"
-msgstr ""
+msgid "WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS\n"
+msgstr "UN TITULAIRE DE DROITS SUR LE PROGRAMME, OU TOUT AUTRE PARTIE QUI MODIFIE OU ACHEMINE\n"
 
 #: src/texte.c:42
 #, c-format
-msgid ""
-"THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY\n"
-msgstr ""
+msgid "THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY\n"
+msgstr "LE PROGRAMME COMME PERMIS CI-DESSUS, NE PEUT ÊTRE TENU POUR RESPONSABLE ENVERS VOUS POUR LES DOMMAGES,\n"
 
 #: src/texte.c:43
 #, c-format
-msgid ""
-"GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE\n"
-msgstr ""
+msgid "GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE\n"
+msgstr "INCLUANT TOUT DOMMAGE GÉNÉRAL, SPÉCIAL, ACCIDENTEL OU INDUIT SURVENANT PAR SUITE DE\n"
 
 #: src/texte.c:44
 #, c-format
-msgid ""
-"USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF\n"
-msgstr ""
+msgid "USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF\n"
+msgstr "L’UTILISATION OU DE L’INCAPACITÉ D’UTILISER LE PROGRAMME (Y COMPRIS, SANS SE LIMITER À CELLES-CI, LA PERTE\n"
 
 #: src/texte.c:45
 #, c-format
-msgid ""
-"DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD\n"
-msgstr ""
+msgid "DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD\n"
+msgstr "DE DONNÉES OU L’INEXACTITUDE DES DONNÉES RETOURNÉES OU LES PERTES SUBIES PAR VOUS OU DES PARTIES\n"
 
 #: src/texte.c:46
 #, c-format
-msgid ""
-"PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),\n"
-msgstr ""
+msgid "PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),\n"
+msgstr "TIERCES OU L’INCAPACITÉ DU PROGRAMME À FONCTIONNER AVEC TOUT AUTRE PROGRAMME),\n"
 
 #: src/texte.c:47
 #, c-format
-msgid ""
-"EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF\n"
-msgstr ""
+msgid "EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF\n"
+msgstr "MÊME SI UN TEL TITULAIRE OU TOUTE AUTRE PARTIE A ÉTÉ AVISÉ DE LA POSSIBILITÉ.\n"
 
 #: src/texte.c:48
 #, c-format
 msgid "SUCH DAMAGES.\n"
-msgstr ""
+msgstr "DE TELS DOMMAGES\n"
 
 #: src/texte.c:50
 #, c-format
 msgid "17. Interpretation of Sections 15 and 16.\n"
-msgstr ""
+msgstr "17. Interprétation des sections 15 et 16.\n"
 
 #: src/texte.c:52
 #, c-format
 msgid "If the disclaimer of warranty and limitation of liability provided\n"
-msgstr ""
+msgstr "Si la déclaration d’absence de garantie et la limitation de responsabilité fournies\n"
 
 #: src/texte.c:53
 #, c-format
 msgid "above cannot be given local legal effect according to their terms,\n"
-msgstr ""
+msgstr "ci-dessus ne peuvent prendre effet localement selon leurs termes,\n"
 
 #: src/texte.c:54
 #, c-format
 msgid "reviewing courts shall apply local law that most closely approximates\n"
-msgstr ""
+msgstr "les cours de justice qui les examinent doivent appliquer la législation locale qui approche au\n"
 
 #: src/texte.c:55
 #, c-format
 msgid "an absolute waiver of all civil liability in connection with the\n"
-msgstr ""
+msgstr "plus près possible une levée absolue de toute responsabilité civile liée au\n"
 
 #: src/texte.c:56
 #, c-format
 msgid "Program, unless a warranty or assumption of liability accompanies a\n"
-msgstr ""
+msgstr "Programme, à moins qu’une garantie ou assumation de responsabilité accompagne\n"
 
 #: src/texte.c:57
 #, c-format
 msgid "copy of the Program in return for a fee.\n"
-msgstr ""
+msgstr "une copie du Programme en échange d’un paiement.\n"
 
 #: src/texte.c:63
 #, c-format
@@ -185,22 +176,69 @@ msgstr "\t-h, --help : affiche le présent menu\n"
 msgid "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 msgstr "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 
-#: src/options.c:236 src/options.c:293 src/main.c:66
+#: src/options.c:236
+#: src/options.c:293
+#: src/main.c:66
 msgid "Ouvrir..."
 msgstr "Ouvrir..."
 
-#: src/options.c:275 src/options.c:332 src/options.c:354 src/options.c:365
-#: src/options.c:373 src/options.c:383 src/options.c:392 src/options.c:404
-#: src/options.c:413 src/options.c:421 src/options.c:426 src/options.c:437
-#: src/options.c:446 src/options.c:458 src/options.c:467 src/options.c:475
-#: src/options.c:480 src/options.c:491 src/options.c:500 src/options.c:509
-#: src/options.c:521 src/options.c:530 src/options.c:542 src/options.c:556
-#: src/options.c:565 src/options.c:574 src/options.c:583 src/options.c:595
-#: src/options.c:604 src/options.c:616 src/options.c:625 src/options.c:634
-#: src/options.c:646 src/options.c:655 src/options.c:667 src/options.c:676
-#: src/options.c:688 src/options.c:697 src/options.c:706 src/options.c:712
-#: src/options.c:721 src/fonctions.c:195 src/fonctions.c:438
-#: src/fonctions.c:488 src/fonctions.c:706
+#: src/options.c:275
+#: src/options.c:332
+#: src/options.c:354
+#: src/options.c:365
+#: src/options.c:373
+#: src/options.c:383
+#: src/options.c:392
+#: src/options.c:404
+#: src/options.c:413
+#: src/options.c:421
+#: src/options.c:426
+#: src/options.c:437
+#: src/options.c:446
+#: src/options.c:458
+#: src/options.c:467
+#: src/options.c:475
+#: src/options.c:480
+#: src/options.c:491
+#: src/options.c:500
+#: src/options.c:509
+#: src/options.c:521
+#: src/options.c:530
+#: src/options.c:542
+#: src/options.c:556
+#: src/options.c:565
+#: src/options.c:574
+#: src/options.c:583
+#: src/options.c:595
+#: src/options.c:604
+#: src/options.c:616
+#: src/options.c:625
+#: src/options.c:634
+#: src/options.c:646
+#: src/options.c:655
+#: src/options.c:667
+#: src/options.c:676
+#: src/options.c:688
+#: src/options.c:697
+#: src/options.c:706
+#: src/options.c:712
+#: src/options.c:721
+#: src/fonctions.c:55
+#: src/fonctions.c:61
+#: src/fonctions.c:74
+#: src/fonctions.c:82
+#: src/fonctions.c:115
+#: src/fonctions.c:123
+#: src/fonctions.c:175
+#: src/fonctions.c:234
+#: src/fonctions.c:355
+#: src/fonctions.c:598
+#: src/fonctions.c:648
+#: src/fonctions.c:754
+#: src/fonctions.c:761
+#: src/fonctions.c:768
+#: src/fonctions.c:775
+#: src/fonctions.c:897
 msgid "Erreur d'allocation mémoire.\n"
 msgstr "Erreur d'allocation mémoire.\n"
 
@@ -241,15 +279,31 @@ msgstr "Arguments : "
 msgid "Général"
 msgstr "Général"
 
-#: src/options.c:851 src/options.c:860 src/options.c:876 src/options.c:885
-#: src/options.c:911 src/options.c:920 src/options.c:934 src/options.c:945
-#: src/options.c:964 src/options.c:973 src/options.c:982
+#: src/options.c:851
+#: src/options.c:860
+#: src/options.c:876
+#: src/options.c:885
+#: src/options.c:911
+#: src/options.c:920
+#: src/options.c:934
+#: src/options.c:945
+#: src/options.c:964
+#: src/options.c:973
+#: src/options.c:982
 msgid "non"
 msgstr "non"
 
-#: src/options.c:852 src/options.c:861 src/options.c:877 src/options.c:886
-#: src/options.c:912 src/options.c:921 src/options.c:936 src/options.c:946
-#: src/options.c:965 src/options.c:974 src/options.c:983
+#: src/options.c:852
+#: src/options.c:861
+#: src/options.c:877
+#: src/options.c:886
+#: src/options.c:912
+#: src/options.c:921
+#: src/options.c:936
+#: src/options.c:946
+#: src/options.c:965
+#: src/options.c:974
+#: src/options.c:983
 msgid "oui"
 msgstr "oui"
 
@@ -297,7 +351,8 @@ msgstr ""
 "Des modifications ont été apportées au projet.\n"
 "Que souhaitez-vous faire ?"
 
-#: src/main.c:178 src/main.c:280
+#: src/main.c:178
+#: src/main.c:280
 msgid "Quitter"
 msgstr "Quitter"
 
@@ -322,9 +377,8 @@ msgid "Enregistrer projet valgrind..."
 msgstr "Enregistrer projet valgrind..."
 
 #: src/main.c:277
-#, fuzzy
 msgid "Enregistrer sous projet valgrind..."
-msgstr "Enregistrer projet valgrind..."
+msgstr "Enregistrer sous projet valgrind..."
 
 #: src/main.c:283
 msgid "Fichier"
@@ -342,35 +396,41 @@ msgstr "Exécuter valgrind"
 msgid "Projet"
 msgstr "Projet"
 
-#: src/fonctions.c:47
+#: src/fonctions.c:105
+#, c-format
+msgid "Impossible d'ouvrir le fichier '%s' en lecture.\n"
+msgstr "Impossible d'ouvrir le fichier '%s' en lecture.\n"
+
+#: src/fonctions.c:153
 msgid "Paramètres invalides.\n"
 msgstr "Paramètres invalides.\n"
 
-#: src/fonctions.c:60 src/fonctions.c:76 src/fonctions.c:78
-#: src/fonctions.c:121 src/fonctions.c:522
+#: src/fonctions.c:168
+#: src/fonctions.c:170
+#: src/fonctions.c:200
+#: src/fonctions.c:210
+#: src/fonctions.c:281
+#: src/fonctions.c:682
 #, c-format
 msgid "Propriété '%s' inconnue dans le noeud XML.\n"
 msgstr "Propriété '%s' inconnue dans le noeud XML.\n"
 
-#: src/fonctions.c:221
+#: src/fonctions.c:381
 #, c-format
 msgid "Le fichier spécifié n'est pas dans un format XML.\n"
 msgstr "Le fichier spécifié n'est pas dans un format XML.\n"
 
-#: src/fonctions.c:428
+#: src/fonctions.c:588
 #, c-format
-msgid ""
-"Le document sélectionné ne semble pas contenir d'information compatible avec "
-"gvalgrind.\n"
-msgstr ""
-"Le document sélectionné ne semble pas contenir d'information compatible avec "
-"gvalgrind.\n"
+msgid "Le document sélectionné ne semble pas contenir d'information compatible avec gvalgrind.\n"
+msgstr "Le document sélectionné ne semble pas contenir d'information compatible avec gvalgrind.\n"
 
-#: src/fonctions.c:479
+#: src/fonctions.c:639
 #, c-format
 msgid "Impossible d'ouvrir le fichier '%s'.\n"
 msgstr "Impossible d'ouvrir le fichier '%s'.\n"
 
-#: src/fonctions.c:484
+#: src/fonctions.c:644
 msgid "Le document est vide.\n"
 msgstr "Le document est vide.\n"
+

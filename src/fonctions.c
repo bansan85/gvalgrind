@@ -22,11 +22,117 @@
 #include <gtk/gtk.h>
 #include <libintl.h>
 #include <locale.h>
+#include <errno.h>
 
 #include "config.h"
 #include "erreurs.h"
 #include "texte.h"
 #include "struct.h"
+#include "fonctions.h"
+
+/* remplace_texte
+ * Description : Renvoie une chaine de caractère contenant le texte d'origine avec les éléments recherchés remplacés par le texte 'remplacer par'
+ *             : La chaîne de caractère renvoyée doit être libéré par la fonction free.
+ * Paramètres : char *texte_origine : texte d'origine
+ *            : char *chercher : texte à rechercher
+ *            : char *remplacer_par : valeur du texte à remplacer
+ * Valeur renvoyée :
+ *   Succès : pointeur vers le texte les éléments remplacés.
+ *   Échec : NULL
+ */
+char *remplace_texte(char *texte_origine, char *chercher, char *remplacer_par)
+{
+	char	*retour = NULL;
+	char	*parcours = texte_origine;
+	char	*trouver = NULL;
+	int	longueur;
+	
+	trouver = strstr(parcours, chercher);
+	if (trouver == NULL)
+	{
+		retour = malloc(sizeof(char)*(strlen(texte_origine)+1));
+		if (retour == NULL)
+			BUGTEXTE(NULL, gettext("Erreur d'allocation mémoire.\n"));
+		strcpy(retour, texte_origine);
+		return retour;
+	}
+	retour = malloc(sizeof(char)*(trouver-texte_origine)+1+strlen(remplacer_par));
+	if (retour == NULL)
+		BUGTEXTE(NULL, gettext("Erreur d'allocation mémoire.\n"));
+	longueur = trouver-texte_origine;
+	strncpy(retour, texte_origine, longueur);
+	retour[longueur] = '\0';
+
+	strcat(retour, remplacer_par);
+	parcours = trouver + strlen(chercher);
+	trouver = strstr(parcours, chercher);
+	
+	while (trouver != NULL)
+	{
+		retour = realloc(retour, sizeof(char)*(strlen(retour)+trouver-parcours+1+strlen(remplacer_par)));
+		if (retour == NULL)
+			BUGTEXTE(NULL, gettext("Erreur d'allocation mémoire.\n"));
+		strncat(retour, parcours, trouver-parcours);
+		strcat(retour, remplacer_par);
+		parcours = trouver + strlen(chercher);
+		trouver = strstr(parcours, chercher);
+	}
+	retour = realloc(retour, sizeof(char)*(strlen(retour)+strlen(parcours)+1));
+	if (retour == NULL)
+		BUGTEXTE(NULL, gettext("Erreur d'allocation mémoire.\n"));
+	strcat(retour, parcours);
+	return retour;
+}
+
+/* get_lines
+ * Description : Renvoie les lignes de debut à fin d'un fichier texte
+ * Paramètres : char *nom_fichier : nom du fichier à ouvrir
+ *            : int debut : numéro de la première ligne à afficher
+ *            : int fin : numéro de la dernière ligne à afficher
+ * Valeur renvoyée :
+ *   Succès : pointeur vers le texte contenant les différentes lignes. Le retour doit être libéré via la commande free
+ *   Échec : NULL
+ */
+char *get_lines(char *nom_fichier, int debut, int fin)
+{
+	char	buffer[256];
+	int	ligne_en_cours = 1;
+	char	*retour = NULL;
+	int	longueur = 0;
+	FILE	*fichier = fopen(nom_fichier, "r");
+	
+	if (fichier == NULL)
+		BUGTEXTE(NULL, gettext("Impossible d'ouvrir le fichier '%s' en lecture.\n"), nom_fichier);
+	
+	fseek(fichier, 0, SEEK_SET);
+	while ((ligne_en_cours <= fin) && (fgets(buffer,256,fichier) != NULL))
+	{
+		if ((ligne_en_cours == debut) && (retour == NULL))
+		{
+			longueur = strlen(buffer)+1;
+			retour = malloc(sizeof(char)*longueur);
+			if (retour == NULL)
+				BUGTEXTE(NULL, gettext("Erreur d'allocation mémoire.\n"));
+			strcpy(retour, buffer);
+		}
+		else if (debut <= ligne_en_cours)
+		{
+			longueur = longueur + strlen(buffer);
+			retour = realloc(retour, longueur);
+			if (retour == NULL)
+				BUGTEXTE(NULL, gettext("Erreur d'allocation mémoire.\n"));
+			strcat(retour, buffer);
+		}
+		if ((strlen(buffer) < 256-1) || (buffer[256-2] == '\n'))
+			ligne_en_cours++;
+	}
+	// On enlève le retour à la ligne finale
+	retour[longueur-2] = '\0';
+	
+	fclose(fichier);
+	
+	return retour;
+}
 
 /* ajout_erreur_recursif
  * Description : Ajoute dans un Widget de type TreeStore, à la ligne iter_racine, les éléments contenus dans le noeud XML racine
@@ -52,16 +158,32 @@ int ajout_erreur_recursif(xmlNodePtr racine, GtkTreeStore *tree_store, GtkTreeIt
 		if ((n0->type == XML_ELEMENT_NODE) && (strcmp((char*)n0->name, "fichier") == 0) && (n0->children != NULL))
 		{
 			xmlChar		*contenu_fichier = xmlGetProp(n0, BAD_CAST "nom");
+			xmlChar		*contenu_dossier = xmlGetProp(n0, BAD_CAST "dossier");
+			char		*contenu_cat;
 			xmlNodePtr	n1;
 			
 			// l'attribut fichier ne peut être absent puisque c'est le présent code qui a créer l'aborescence
 			// Si l'attribut file est initialement manquant, il est stocké en ""
 			if (contenu_fichier == NULL)
 				BUGTEXTE(-2, gettext("Propriété '%s' inconnue dans le noeud XML.\n"), "nom");
+			if (contenu_dossier == NULL)
+				BUGTEXTE(-2, gettext("Propriété '%s' inconnue dans le noeud XML.\n"), "dossier");
 			// On ajoute la ligne
 			gtk_tree_store_append(tree_store, &iter_parent, iter_racine);
-			gtk_tree_store_set(tree_store, &iter_parent, 0, (char *)contenu_fichier, -1);
-			xmlFree(contenu_fichier);
+			contenu_cat = malloc(sizeof(char)*(strlen((char *)contenu_fichier)+strlen((char *)contenu_dossier)+strlen("<span bgcolor=\"#000000\"> ()</span>")+1));
+			if (contenu_cat == NULL)
+				BUGTEXTE(-1, gettext("Erreur d'allocation mémoire.\n"));
+			strcpy(contenu_cat, "<span bgcolor=\"#E0E0E0\">");
+			strcat(contenu_cat, (char *)contenu_fichier);
+			strcat(contenu_cat, " (");
+			strcat(contenu_cat, (char *)contenu_dossier);
+			strcat(contenu_cat, ")</span>");
+			gtk_tree_store_set(tree_store, &iter_parent, 0, contenu_cat, -1);
+			
+			// On réutilise contenu_cat pour stocker l'emplacement du fichier.
+			strcpy(contenu_cat, (char *)contenu_dossier);
+			strcat(contenu_cat, "/");
+			strcat(contenu_cat, (char *)contenu_fichier);
 			
 			// On parcours l'ensemble des enfants du noeud racine à la recherche de la propriété ligne et fonction 
 			for (n1 = n0->children; n1 != NULL; n1 = n1->next)
@@ -69,27 +191,65 @@ int ajout_erreur_recursif(xmlNodePtr racine, GtkTreeStore *tree_store, GtkTreeIt
 				if ((n1->type == XML_ELEMENT_NODE) && (strcmp((char*)n1->name, "ligne") == 0))
 				{
 					xmlChar		*contenu_ligne = xmlGetProp(n1, BAD_CAST "ligne");
+					long		ligne;
 					xmlChar		*contenu_fn = xmlGetProp(n1, BAD_CAST "fn");
-					char		*contenu_cat;
+					char		*contenu_cat2, *endptr, *texte_compatible_markup;
+					int		get_ligne = 1;
 					
 					if (contenu_ligne == NULL)
 						BUGTEXTE(-3, gettext("Propriété '%s' inconnue dans le noeud XML.\n"), "ligne");
+					// On converti contenu_ligne en nombre avec gestion des erreurs
+					errno = 0;
+					ligne = strtol((char *)contenu_ligne, &endptr, 10);
+					if ((errno == ERANGE && (ligne == LONG_MAX || ligne == LONG_MIN)) || (errno != 0 && ligne == 0))
+						get_ligne = 0;
+					if (endptr == (char *)contenu_ligne)
+						get_ligne = 0;
+					
 					if (contenu_fn == NULL)
 						BUGTEXTE(-4, gettext("Propriété '%s' inconnue dans le noeud XML.\n"), "fonction");
 					gtk_tree_store_append(tree_store, &iter, &iter_parent);
-					contenu_cat = malloc(sizeof(char)*(strlen((char *)contenu_ligne)+strlen((char *)contenu_fn)+strlen(" ()")+2));
-					strcpy(contenu_cat, (char *)contenu_fn);
-					strcat(contenu_cat, " (");
-					strcat(contenu_cat, (char *)contenu_ligne);
-					strcat(contenu_cat, ")");
-					gtk_tree_store_set(tree_store, &iter, 0, contenu_cat, -1);
+					
+					// On défini le contenu de la ligne : fonction (ligne)
+					contenu_cat2 = malloc(sizeof(char)*(strlen((char *)contenu_ligne)+strlen((char *)contenu_fn)+strlen("<span bgcolor=\"#000000\"> ()</span>")+1));
+					strcpy(contenu_cat2, "<span bgcolor=\"#B0B0B0\">");
+					strcat(contenu_cat2, (char *)contenu_fn);
+					strcat(contenu_cat2, " (");
+					strcat(contenu_cat2, (char *)contenu_ligne);
+					strcat(contenu_cat2, ")</span>");
+					// Et on ajoute le contenu de la source si cette dernière existe
+					if ((get_ligne == 1) && (file_exists(contenu_cat) == 0))
+					{
+						char	*source = get_lines(contenu_cat, ligne, ligne);
+						
+						contenu_cat2 = realloc(contenu_cat2, strlen(contenu_cat2)+1+strlen("\n<span face=\"Courier New\"><b>"));
+						strcat(contenu_cat2, "\n<span face=\"Courier New\"><b>");
+						
+						texte_compatible_markup = remplace_texte(source, "&", "&amp;");
+						free(source);
+						source = remplace_texte(texte_compatible_markup, "<", "&lt;");
+					
+						contenu_cat2 = realloc(contenu_cat2, strlen(contenu_cat2)+strlen(source)+1+11);
+						if (contenu_cat2 == NULL)
+							BUGTEXTE(-1, gettext("Erreur d'allocation mémoire.\n"));
+						strcat(contenu_cat2, source);
+						strcat(contenu_cat2, "</b></span>");
+						
+						free(source);
+						free(texte_compatible_markup);
+					}
+					
+					gtk_tree_store_set(tree_store, &iter, 0, contenu_cat2, -1);
+					
 					xmlFree(contenu_ligne);
 					xmlFree(contenu_fn);
-					free(contenu_cat);
+					free(contenu_cat2);
 					if (ajout_erreur_recursif(n1, tree_store, &iter) != 0)
 						BUG(-5);
 				}
 			}
+			free(contenu_cat);
+			xmlFree(contenu_fichier);
 		}
 	}
 	return 0;
@@ -569,7 +729,7 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 									// On parcourt le noeud pour trouver les frames
 									if ((n3->type == XML_ELEMENT_NODE) && (strcmp((char*)n3->name, "frame") == 0))
 									{
-										xmlChar 	*char_file = NULL, *char_fn = NULL, *char_ligne = NULL;
+										xmlChar 	*char_file = NULL, *char_fn = NULL, *char_ligne = NULL, *char_dir = NULL;
 										xmlNodePtr	n4, parcours2;
 										
 										// On récupère le nom du fichier, le nom de la fonction et la ligne du code
@@ -582,7 +742,40 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 												char_fn = xmlNodeGetContent(n4);
 											else if (strcmp((char*)n4->name, "line") == 0)
 												char_ligne = xmlNodeGetContent(n4);
+											else if (strcmp((char*)n4->name, "dir") == 0)
+												char_dir = xmlNodeGetContent(n4);
 										}
+										
+										// Dans le cas où certains éléments ne sont pas disponibles, on leur attribue un texte vide
+										if (char_file == NULL)
+										{
+											char_file = malloc(sizeof(char)*1);
+											if (char_file == NULL)
+												BUGTEXTE(-5, gettext("Erreur d'allocation mémoire.\n"));
+											strcpy((char *)char_file, "");
+										}
+										if (char_fn == NULL)
+										{
+											char_fn = malloc(sizeof(char)*1);
+											if (char_fn == NULL)
+												BUGTEXTE(-5, gettext("Erreur d'allocation mémoire.\n"));
+											strcpy((char *)char_fn, "");
+										}
+										if (char_ligne == NULL)
+										{
+											char_ligne = malloc(sizeof(char)*1);
+											if (char_ligne == NULL)
+												BUGTEXTE(-5, gettext("Erreur d'allocation mémoire.\n"));
+											strcpy((char *)char_ligne, "");
+										}
+										if (char_dir == NULL)
+										{
+											char_dir = malloc(sizeof(char)*1);
+											if (char_dir == NULL)
+												BUGTEXTE(-5, gettext("Erreur d'allocation mémoire.\n"));
+											strcpy((char *)char_dir, "");
+										}
+										
 										
 										// On commence par vérifier si le fichier est déjà présent dans la nouvelle arborescence
 										trouve = 0;
@@ -594,15 +787,11 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 												if ((strcmp((char*)parcours2->name, "fichier") == 0) && (parcours2->type == XML_ELEMENT_NODE))
 												{
 													xmlChar *contenu = xmlGetProp(parcours2, BAD_CAST "nom");
-													if ((contenu == NULL) && (char_file == NULL))
-														trouve = 1;
-													else if ((contenu == NULL) && (char_file != NULL) && (strcmp("", (char *)char_file) == 0))
-														trouve = 1;
-													else if ((contenu != NULL) && (strcmp("", (char *)contenu) == 0) && (char_file == NULL))
-														trouve = 1;
-													else if ((contenu != NULL) && (char_file != NULL) && (strcmp((char*)contenu, (char *)char_file) == 0))
+													xmlChar *contenu2 = xmlGetProp(parcours2, BAD_CAST "dossier");
+													if ((strcmp((char *)char_file, (char *)contenu) == 0) && (strcmp((char *)char_dir, (char *)contenu2) == 0))
 														trouve = 1;
 													xmlFree(contenu);
+													xmlFree(contenu2);
 												}
 												if (trouve == 0)
 													parcours2 = parcours2->next;
@@ -614,6 +803,7 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 										{
 											new_node = xmlNewNode(NULL, BAD_CAST "fichier");
 											xmlSetProp(new_node, BAD_CAST "nom", char_file);
+											xmlSetProp(new_node, BAD_CAST "dossier", char_dir);
 											xmlAddChild(parcours1, new_node);
 											parcours1 = new_node;
 										}
@@ -672,6 +862,7 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 										xmlFree(char_fn);
 										xmlFree(char_ligne);
 										xmlFree(char_file);
+										xmlFree(char_dir);
 									}
 								}
 							}
