@@ -259,7 +259,7 @@ int main(int argc, char *argv[])
 	}
 	
 	pCellRenderer = gtk_cell_renderer_text_new();
-	pColumn = gtk_tree_view_column_new_with_attributes(gettext("Texte"), pCellRenderer, "text", 0, NULL);
+	pColumn = gtk_tree_view_column_new_with_attributes(gettext("Texte"), pCellRenderer, "markup", 0, NULL);
 	gtk_tree_view_append_column(projet.tree_view, pColumn);
 	
 	// Le menu

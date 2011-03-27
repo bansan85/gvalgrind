@@ -28,5 +28,6 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet);
 int enregistrer_projet(char *nom_fichier, Projet *projet);
 int file_exists(const char *filename);
 int ouvrir_projet(char *nom_fichier, Projet *projet);
+char *get_lines(char *nom_fichier, int debut, int fin);
 
 #endif
