@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gvalgrind 0.0.0.2\n"
 "Report-Msgid-Bugs-To: devel@2lgc.org\n"
-"POT-Creation-Date: 2011-07-06 13:01+0200\n"
+"POT-Creation-Date: 2011-07-06 15:10+0200\n"
 "PO-Revision-Date: 2011-03-27 20:50+0100\n"
 "Last-Translator: LE GARREC Vincent <vlg@2lgc.org>\n"
 "Language-Team: French\n"
@@ -282,26 +282,26 @@ msgstr "\t-h, --help : affiche le présent menu\n"
 msgid "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 msgstr "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 
-#: src/options.c:275 src/options.c:332 src/options.c:354 src/options.c:365
-#: src/options.c:373 src/options.c:383 src/options.c:392 src/options.c:404
-#: src/options.c:413 src/options.c:421 src/options.c:426 src/options.c:437
-#: src/options.c:446 src/options.c:458 src/options.c:467 src/options.c:475
-#: src/options.c:480 src/options.c:491 src/options.c:500 src/options.c:509
-#: src/options.c:521 src/options.c:530 src/options.c:542 src/options.c:556
-#: src/options.c:565 src/options.c:574 src/options.c:583 src/options.c:595
-#: src/options.c:604 src/options.c:616 src/options.c:625 src/options.c:634
-#: src/options.c:646 src/options.c:655 src/options.c:667 src/options.c:676
-#: src/options.c:688 src/options.c:697 src/options.c:706 src/options.c:712
-#: src/options.c:721 src/fonctions.c:55 src/fonctions.c:61 src/fonctions.c:74
+#: src/options.c:275 src/options.c:332 src/options.c:357 src/options.c:368
+#: src/options.c:376 src/options.c:386 src/options.c:395 src/options.c:407
+#: src/options.c:416 src/options.c:424 src/options.c:429 src/options.c:440
+#: src/options.c:449 src/options.c:461 src/options.c:470 src/options.c:478
+#: src/options.c:483 src/options.c:494 src/options.c:503 src/options.c:512
+#: src/options.c:524 src/options.c:533 src/options.c:545 src/options.c:559
+#: src/options.c:568 src/options.c:577 src/options.c:586 src/options.c:598
+#: src/options.c:607 src/options.c:619 src/options.c:628 src/options.c:637
+#: src/options.c:649 src/options.c:658 src/options.c:670 src/options.c:679
+#: src/options.c:691 src/options.c:700 src/options.c:709 src/options.c:715
+#: src/options.c:724 src/fonctions.c:55 src/fonctions.c:61 src/fonctions.c:74
 #: src/fonctions.c:82 src/fonctions.c:115 src/fonctions.c:123
-#: src/fonctions.c:175 src/fonctions.c:234 src/fonctions.c:355
-#: src/fonctions.c:598 src/fonctions.c:648 src/fonctions.c:754
-#: src/fonctions.c:761 src/fonctions.c:768 src/fonctions.c:775
-#: src/fonctions.c:897
+#: src/fonctions.c:175 src/fonctions.c:236 src/fonctions.c:357
+#: src/fonctions.c:600 src/fonctions.c:650 src/fonctions.c:756
+#: src/fonctions.c:763 src/fonctions.c:770 src/fonctions.c:777
+#: src/fonctions.c:899
 msgid "Erreur d'allocation mémoire.\n"
 msgstr "Erreur d'allocation mémoire.\n"
 
-#: src/options.c:735
+#: src/options.c:738
 #, c-format
 msgid ""
 "Le rapport de valgrind est introuvable.\n"
@@ -310,79 +310,79 @@ msgstr ""
 "Le rapport de valgrind est introuvable.\n"
 "L'exécution s'est-elle correctement déroulée ?\n"
 
-#: src/options.c:808
+#: src/options.c:811
 msgid "Options du projet"
 msgstr "Options du projet"
 
-#: src/options.c:822
+#: src/options.c:825
 msgid "Fermeture"
 msgstr ""
 
-#: src/options.c:828
+#: src/options.c:831
 msgid "Programme"
 msgstr "Programme"
 
-#: src/options.c:831
+#: src/options.c:834
 msgid "Dossier courant : "
 msgstr "Dossier courant : "
 
-#: src/options.c:840
+#: src/options.c:843
 msgid "Environnement : "
 msgstr "Environnement : "
 
-#: src/options.c:848
+#: src/options.c:851
 msgid "Emplacement : "
 msgstr "Emplacement : "
 
-#: src/options.c:857
+#: src/options.c:860
 msgid "Arguments : "
 msgstr "Arguments : "
 
-#: src/options.c:867
+#: src/options.c:870
 msgid "Général"
 msgstr "Général"
 
-#: src/options.c:872 src/options.c:881 src/options.c:897 src/options.c:906
-#: src/options.c:932 src/options.c:941 src/options.c:955 src/options.c:966
-#: src/options.c:985 src/options.c:994 src/options.c:1003
+#: src/options.c:875 src/options.c:884 src/options.c:900 src/options.c:909
+#: src/options.c:935 src/options.c:944 src/options.c:958 src/options.c:969
+#: src/options.c:988 src/options.c:997 src/options.c:1006
 msgid "non"
 msgstr "non"
 
-#: src/options.c:873 src/options.c:882 src/options.c:898 src/options.c:907
-#: src/options.c:933 src/options.c:942 src/options.c:957 src/options.c:967
-#: src/options.c:986 src/options.c:995 src/options.c:1004
+#: src/options.c:876 src/options.c:885 src/options.c:901 src/options.c:910
+#: src/options.c:936 src/options.c:945 src/options.c:960 src/options.c:970
+#: src/options.c:989 src/options.c:998 src/options.c:1007
 msgid "oui"
 msgstr "oui"
 
-#: src/options.c:922
+#: src/options.c:925
 msgid "aucun"
 msgstr "aucun"
 
-#: src/options.c:923
+#: src/options.c:926
 msgid "tas"
 msgstr "tas"
 
-#: src/options.c:924
+#: src/options.c:927
 msgid "tout"
 msgstr "tout"
 
-#: src/options.c:956
+#: src/options.c:959
 msgid "sommaire"
 msgstr "sommaire"
 
-#: src/options.c:958
+#: src/options.c:961
 msgid "complet"
 msgstr "complet"
 
-#: src/options.c:975
+#: src/options.c:978
 msgid "bas"
 msgstr "bas"
 
-#: src/options.c:976
+#: src/options.c:979
 msgid "moyen"
 msgstr "moyen"
 
-#: src/options.c:977
+#: src/options.c:980
 msgid "haut"
 msgstr "haut"
 
@@ -396,17 +396,17 @@ msgid "Paramètres invalides.\n"
 msgstr "Paramètres invalides.\n"
 
 #: src/fonctions.c:168 src/fonctions.c:170 src/fonctions.c:200
-#: src/fonctions.c:210 src/fonctions.c:281 src/fonctions.c:682
+#: src/fonctions.c:210 src/fonctions.c:283 src/fonctions.c:684
 #, c-format
 msgid "Propriété '%s' inconnue dans le noeud XML.\n"
 msgstr "Propriété '%s' inconnue dans le noeud XML.\n"
 
-#: src/fonctions.c:381
+#: src/fonctions.c:383
 #, c-format
 msgid "Le fichier spécifié n'est pas dans un format XML.\n"
 msgstr "Le fichier spécifié n'est pas dans un format XML.\n"
 
-#: src/fonctions.c:588
+#: src/fonctions.c:590
 #, c-format
 msgid ""
 "Le document sélectionné ne semble pas contenir d'information compatible avec "
@@ -415,11 +415,11 @@ msgstr ""
 "Le document sélectionné ne semble pas contenir d'information compatible avec "
 "gvalgrind.\n"
 
-#: src/fonctions.c:639
+#: src/fonctions.c:641
 #, c-format
 msgid "Impossible d'ouvrir le fichier '%s'.\n"
 msgstr "Impossible d'ouvrir le fichier '%s'.\n"
 
-#: src/fonctions.c:644
+#: src/fonctions.c:646
 msgid "Le document est vide.\n"
 msgstr "Le document est vide.\n"
