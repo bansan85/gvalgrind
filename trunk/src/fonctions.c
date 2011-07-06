@@ -211,6 +211,10 @@ int ajout_erreur_recursif(xmlNodePtr racine, GtkTreeStore *tree_store, GtkTreeIt
 					gtk_tree_store_append(tree_store, &iter, &iter_parent);
 					
 					// On défini le contenu de la ligne : fonction (ligne)
+					texte_compatible_markup = remplace_texte((char *)contenu_fn, "<", "&lt;");
+					free(contenu_fn);
+					contenu_fn = (xmlChar*)remplace_texte(texte_compatible_markup, ">", "&gt;");
+					free(texte_compatible_markup);
 					contenu_cat2 = malloc(sizeof(char)*(strlen((char *)contenu_ligne)+strlen((char *)contenu_fn)+strlen("<span bgcolor=\"#000000\"> ()</span>")+1));
 					strcpy(contenu_cat2, "<span bgcolor=\"#B0B0B0\">");
 					strcat(contenu_cat2, (char *)contenu_fn);
@@ -228,11 +232,13 @@ int ajout_erreur_recursif(xmlNodePtr racine, GtkTreeStore *tree_store, GtkTreeIt
 						texte_compatible_markup = remplace_texte(source, "&", "&amp;");
 						free(source);
 						source = remplace_texte(texte_compatible_markup, "<", "&lt;");
+						free(texte_compatible_markup);
+						texte_compatible_markup = remplace_texte(source, ">", "&gt;");
 					
-						contenu_cat2 = realloc(contenu_cat2, strlen(contenu_cat2)+strlen(source)+1+11);
+						contenu_cat2 = realloc(contenu_cat2, strlen(contenu_cat2)+strlen(texte_compatible_markup)+1+11);
 						if (contenu_cat2 == NULL)
 							BUGTEXTE(-1, gettext("Erreur d'allocation mémoire.\n"));
-						strcat(contenu_cat2, source);
+						strcat(contenu_cat2, texte_compatible_markup);
 						strcat(contenu_cat2, "</b></span>");
 						
 						free(source);
