@@ -35,7 +35,7 @@ aclocal
 libtoolize
 automake --add-missing --copy
 autoconf
-CFLAGS="-march=nocona -O0 -g3 -ggdb3 -pipe -ftracer -fsched2-use-traces -Wl,--as-needed -Wl,-O0 -fno-inline -Wall -Wextra -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE" ./configure --prefix=/usr/local
+CFLAGS="-march=native -O0 -g3 -ggdb3 -pipe -ftracer -fsched2-use-traces -Wl,--as-needed -Wl,-O0 -fno-inline -Wall -Wextra -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED" ./configure --prefix=/usr/local
 make -j3
 make install
 NOTA IMPORTANT :
