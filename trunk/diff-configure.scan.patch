@@ -1,5 +1,5 @@
---- configure.scan.old	2011-03-20 10:05:51.216999815 +0100
-+++ configure.scan	2011-03-20 10:08:36.043999811 +0100
+--- configure.scan.old	2011-07-04 17:55:35.195009383 +0200
++++ configure.scan	2011-07-04 17:56:30.081009401 +0200
 @@ -2,12 +2,26 @@
  # Process this file with autoconf to produce a configure script.
  
@@ -7,7 +7,7 @@
 -AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
 +AC_INIT(gvalgrind, 0.0.0.2, devel@2lgc.org, gvalgrind, http://2lgc.org)
 +AM_INIT_AUTOMAKE
- AC_CONFIG_SRCDIR([src/texte.c])
+ AC_CONFIG_SRCDIR([src/fonctions.h])
  AC_CONFIG_HEADERS([config.h])
 +AC_CONFIG_MACRO_DIR([m4])
  

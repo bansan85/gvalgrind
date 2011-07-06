@@ -348,6 +348,9 @@ void main_valgrind(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet
 	int	longueur;
 	char	*caractere;
 	
+	if (projet->programme.nom_fichier == NULL)
+		return;
+	
 	longueur = 1;
 	commande = malloc(sizeof(char)*longueur);
 	if (commande == NULL)
@@ -749,7 +752,7 @@ void main_valgrind(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet
 }
 
 /* gtk_window_option_destroy
- * Description : Affiche les options de lancement de valgrind
+ * Description : Fonction de fermeture de la fenêtre
  * Paramètres : GtkComboBox *widget : composant à l'origine de la demande
  *            : Projet *projet : la variable projet
  * Valeur renvoyée : Aucune
@@ -769,6 +772,18 @@ void main_nouveau(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 {
 	init_projet(projet);
 	
+	return;
+}
+
+/* gtk_window_option_destroy_button
+ * Description : Bouton de fermeture de la fenêtre
+ * Paramètres : GtkComboBox *widget : composant à l'origine de la demande
+ *            : GtkWidget *fenêtre : la fenêtre d'options
+ * Valeur renvoyée : Aucune
+ */
+void gtk_window_option_destroy_button(GtkWidget *object __attribute__((unused)), GtkWidget *fenetre __attribute__((unused)))
+{
+	gtk_widget_destroy(fenetre);
 	return;
 }
 
@@ -797,10 +812,19 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	gtk_window_set_default_size(GTK_WINDOW(pwindow), 320, 200);
 	g_signal_connect(GTK_WINDOW(pwindow), "destroy", G_CALLBACK(gtk_window_option_destroy), projet);
 	
+	// Création de la table contenant le notebook et le bouton de fermeture
+	ptable = gtk_table_new(2, 1, FALSE);
+	gtk_container_add(GTK_CONTAINER(pwindow), ptable);
+	
 	// Création du notebook contenant les options
 	pnotebook = gtk_notebook_new();
-	gtk_container_add(GTK_CONTAINER(pwindow), pnotebook);
+	gtk_table_attach (GTK_TABLE(ptable), pnotebook, 0, 1, 0, 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(pnotebook), GTK_POS_TOP);
+	
+	// Création du bonton de fermeture de la fenêtre
+	pbutton = gtk_button_new_with_label(gettext("Fermeture"));
+	g_signal_connect(G_OBJECT(pbutton), "clicked", G_CALLBACK(gtk_window_option_destroy_button), pwindow);
+	gtk_table_attach (GTK_TABLE(ptable), pbutton, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 	
 	// Création de l'onglet programme
 	ptable = gtk_table_new(6, 3, FALSE);
