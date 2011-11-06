@@ -225,15 +225,15 @@ gboolean gtk_window_demande_confirmation(GtkWidget *widget __attribute__((unused
 int main(int argc, char *argv[])
 {
 	// Variables pour l'interface graphique
-	GtkWidget	*mainwindow = NULL;
-	GtkCellRenderer	*pCellRenderer;
-	GtkTreeViewColumn *pColumn;
-	GtkWidget	*pVBox;
-	GtkWidget	*pScrollbar;
-	GtkWidget	*pMenuBar;
-	GtkWidget	*pMenu;
-	GtkWidget	*pMenuItem;
-	Projet		projet;
+	GtkWidget	        *mainwindow = NULL;
+	GtkCellRenderer	    *pCellRenderer;
+	GtkTreeViewColumn   *pColumn;
+	GtkWidget	        *pTable;
+	GtkWidget	        *pScrollbar;
+	GtkWidget	        *pMenuBar;
+	GtkWidget	        *pMenu;
+	GtkWidget	        *pMenuItem;
+	Projet		        projet;
 	
 	// On initialise l'interface graphique
 	if (gtk_init_check(&argc, &argv) == FALSE)
@@ -295,11 +295,11 @@ int main(int argc, char *argv[])
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(pMenuItem), pMenu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenuBar), pMenuItem);
 	
-	pVBox = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(pVBox), pMenuBar, FALSE, FALSE, 0);
+	pTable = gtk_table_new(3, 1, FALSE);
+    gtk_table_attach(GTK_TABLE(pTable), pMenuBar, 0, 1, 0, 1, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), (GtkAttachOptions)(GTK_SHRINK), 0, 0);
 	pScrollbar = gtk_scrolled_window_new(NULL, NULL);
-	gtk_box_pack_start(GTK_BOX(pVBox), pScrollbar, TRUE, TRUE, 0);
-	gtk_container_add(GTK_CONTAINER(mainwindow), pVBox);
+    gtk_table_attach(GTK_TABLE(pTable), pScrollbar, 0, 1, 1, 2, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), 0, 0);
+	gtk_container_add(GTK_CONTAINER(mainwindow), pTable);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(pScrollbar), GTK_WIDGET(projet.tree_view));
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(pScrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_widget_show_all(mainwindow);
