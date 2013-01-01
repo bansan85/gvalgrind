@@ -173,7 +173,10 @@ int ajout_erreur_recursif(xmlNodePtr racine, GtkTreeStore *tree_store, GtkTreeIt
 			contenu_cat = malloc(sizeof(char)*(strlen((char *)contenu_fichier)+strlen((char *)contenu_dossier)+strlen("<span bgcolor=\"#000000\"> ()</span>")+1));
 			if (contenu_cat == NULL)
 				BUGTEXTE(-1, gettext("Erreur d'allocation mémoire.\n"));
-			strcpy(contenu_cat, "<span bgcolor=\"#E0E0E0\">");
+            if (strncmp((char*)contenu_dossier, "/var/tmp/portage/", 17) == 0)
+    			strcpy(contenu_cat, "<span bgcolor=\"#E0E0E0\">");
+            else
+    			strcpy(contenu_cat, "<span bgcolor=\"#FFFF00\">");
 			strcat(contenu_cat, (char *)contenu_fichier);
 			strcat(contenu_cat, " (");
 			strcat(contenu_cat, (char *)contenu_dossier);
