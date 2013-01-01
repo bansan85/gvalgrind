@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gvalgrind 0.0.0.2\n"
 "Report-Msgid-Bugs-To: devel@2lgc.org\n"
-"POT-Creation-Date: 2011-07-08 20:24+0200\n"
-"PO-Revision-Date: 2011-11-06 08:35+0100\n"
-"Last-Translator: LE GARREC Vincent <vlg@2lgc.org>\n"
+"POT-Creation-Date: 2012-10-20 14:47+0200\n"
+"PO-Revision-Date: 2013-01-01 22:56+0100\n"
+"Last-Translator: LE GARREC Vincent <contact@2lgc.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -57,6 +57,30 @@ msgstr "Exécuter valgrind"
 
 msgid "Projet"
 msgstr "Projet"
+
+msgid "Erreur d'allocation mémoire.\n"
+msgstr "Erreur d'allocation mémoire.\n"
+
+msgid "Impossible d'ouvrir le fichier '%s' en lecture.\n"
+msgstr "Impossible d'ouvrir le fichier '%s' en lecture.\n"
+
+msgid "Paramètres invalides.\n"
+msgstr "Paramètres invalides.\n"
+
+msgid "Propriété '%s' inconnue dans le noeud XML.\n"
+msgstr "Propriété '%s' inconnue dans le noeud XML.\n"
+
+msgid "Le fichier spécifié n'est pas dans un format XML.\n"
+msgstr "Le fichier spécifié n'est pas dans un format XML.\n"
+
+msgid "Le document sélectionné ne semble pas contenir d'information compatible avec gvalgrind.\n"
+msgstr "Le document sélectionné ne semble pas contenir d'information compatible avec gvalgrind.\n"
+
+msgid "Impossible d'ouvrir le fichier '%s'.\n"
+msgstr "Impossible d'ouvrir le fichier '%s'.\n"
+
+msgid "Le document est vide.\n"
+msgstr "Le document est vide.\n"
 
 msgid "15. Disclaimer of Warranty.\n"
 msgstr "15. Déclaration d’absence de garantie. (seule la version anglaise fait foi)\n"
@@ -151,9 +175,6 @@ msgstr "\t-h, --help : affiche le présent menu\n"
 msgid "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 msgstr "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 
-msgid "Erreur d'allocation mémoire.\n"
-msgstr "Erreur d'allocation mémoire.\n"
-
 msgid ""
 "Le rapport de valgrind est introuvable.\n"
 "L'exécution s'est-elle correctement déroulée ?\n"
@@ -214,25 +235,3 @@ msgstr "moyen"
 
 msgid "haut"
 msgstr "haut"
-
-msgid "Impossible d'ouvrir le fichier '%s' en lecture.\n"
-msgstr "Impossible d'ouvrir le fichier '%s' en lecture.\n"
-
-msgid "Paramètres invalides.\n"
-msgstr "Paramètres invalides.\n"
-
-msgid "Propriété '%s' inconnue dans le noeud XML.\n"
-msgstr "Propriété '%s' inconnue dans le noeud XML.\n"
-
-msgid "Le fichier spécifié n'est pas dans un format XML.\n"
-msgstr "Le fichier spécifié n'est pas dans un format XML.\n"
-
-msgid "Le document sélectionné ne semble pas contenir d'information compatible avec gvalgrind.\n"
-msgstr "Le document sélectionné ne semble pas contenir d'information compatible avec gvalgrind.\n"
-
-msgid "Impossible d'ouvrir le fichier '%s'.\n"
-msgstr "Impossible d'ouvrir le fichier '%s'.\n"
-
-msgid "Le document est vide.\n"
-msgstr "Le document est vide.\n"
-
