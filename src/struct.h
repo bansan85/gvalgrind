@@ -28,7 +28,7 @@ typedef struct __Opts_Gen
 					// 1 = yes
 	int	track_fds;		// 0 = no
 					// 1 = yes*
-	int	num_callers;		// 2 à 50*
+	int	num_callers;		// 2 à 500*
 	int	error_limit;		// 0 = no*
 					// 1 = yes
 	int	show_below_main;	// 0 = no
@@ -45,7 +45,7 @@ typedef struct __Opts_Gen
 
 #define GVAL_DEFAUT_TRACE_CHILDREN		0
 #define GVAL_DEFAUT_TRACK_FDS			1
-#define GVAL_DEFAUT_NUM_CALLERS			50
+#define GVAL_DEFAUT_NUM_CALLERS			500
 #define GVAL_DEFAUT_ERROR_LIMIT			0
 #define GVAL_DEFAUT_SHOW_BELOW_MAIN		1
 #define GVAL_DEFAUT_MAX_STACKFRAME		2000000
