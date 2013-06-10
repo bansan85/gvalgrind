@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
 	GtkWidget	        *mainwindow = NULL;
 	GtkCellRenderer	    *pCellRenderer;
 	GtkTreeViewColumn   *pColumn;
-	GtkWidget	        *pTable;
+	GtkWidget	        *pGrid;
 	GtkWidget	        *pScrollbar;
 	GtkWidget	        *pMenuBar;
 	GtkWidget	        *pMenu;
@@ -261,6 +261,8 @@ int main(int argc, char *argv[])
 	pCellRenderer = gtk_cell_renderer_text_new();
 	pColumn = gtk_tree_view_column_new_with_attributes(gettext("Texte"), pCellRenderer, "markup", 0, NULL);
 	gtk_tree_view_append_column(projet.tree_view, pColumn);
+    gtk_widget_set_hexpand(GTK_WIDGET(projet.tree_view), TRUE);
+    gtk_widget_set_vexpand(GTK_WIDGET(projet.tree_view), TRUE);
 	
 	// Le menu
 	pMenuBar = gtk_menu_bar_new();
@@ -295,12 +297,13 @@ int main(int argc, char *argv[])
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(pMenuItem), pMenu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(pMenuBar), pMenuItem);
 	
-	pTable = gtk_table_new(3, 1, FALSE);
-    gtk_table_attach(GTK_TABLE(pTable), pMenuBar, 0, 1, 0, 1, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), (GtkAttachOptions)(GTK_SHRINK), 0, 0);
+	pGrid = gtk_grid_new();
+    gtk_grid_attach(GTK_GRID(pGrid), pMenuBar, 0, 0, 1, 1);
 	pScrollbar = gtk_scrolled_window_new(NULL, NULL);
-    gtk_table_attach(GTK_TABLE(pTable), pScrollbar, 0, 1, 1, 2, (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), (GtkAttachOptions)(GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_container_add(GTK_CONTAINER(mainwindow), pTable);
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(pScrollbar), GTK_WIDGET(projet.tree_view));
+    gtk_grid_attach(GTK_GRID(pGrid), pScrollbar, 0, 1, 1, 1);
+	gtk_container_add(GTK_CONTAINER(mainwindow), pGrid);
+    gtk_widget_set_hexpand(pGrid, TRUE);
+	gtk_container_add(GTK_CONTAINER(pScrollbar), GTK_WIDGET(projet.tree_view));
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(pScrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_widget_show_all(mainwindow);
 	gtk_main();

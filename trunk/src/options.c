@@ -796,7 +796,7 @@ void gtk_window_option_destroy_button(GtkWidget *object __attribute__((unused)),
 void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 {
 	GtkWidget	*pwindow;
-	GtkWidget	*ptable;
+	GtkWidget	*pgrid;
 	
 	GtkWidget	*pnotebook;
 	GtkWidget	*ptablabel;
@@ -809,116 +809,138 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	// Création de la fenêtre graphique
 	pwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(pwindow), gettext("Options du projet"));
-	gtk_window_set_default_size(GTK_WINDOW(pwindow), 320, 200);
+	gtk_window_set_default_size(GTK_WINDOW(pwindow), 420, 300);
 	g_signal_connect(GTK_WINDOW(pwindow), "destroy", G_CALLBACK(gtk_window_option_destroy), projet);
 	
 	// Création de la table contenant le notebook et le bouton de fermeture
-	ptable = gtk_table_new(2, 1, FALSE);
-	gtk_container_add(GTK_CONTAINER(pwindow), ptable);
+	pgrid = gtk_grid_new();
+	gtk_container_add(GTK_CONTAINER(pwindow), pgrid);
+    gtk_container_set_border_width(GTK_CONTAINER(pgrid), 12);
+    gtk_grid_set_row_spacing(GTK_GRID(pgrid), 6);
+    gtk_grid_set_column_spacing(GTK_GRID(pgrid), 6);
+    gtk_widget_set_vexpand(pgrid, TRUE);
 	
 	// Création du notebook contenant les options
 	pnotebook = gtk_notebook_new();
-	gtk_table_attach (GTK_TABLE(ptable), pnotebook, 0, 1, 0, 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+    gtk_widget_set_hexpand(pnotebook, TRUE);
+	gtk_grid_attach (GTK_GRID(pgrid), pnotebook, 0, 0, 1, 1);
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(pnotebook), GTK_POS_TOP);
+    gtk_widget_set_vexpand(pnotebook, TRUE);
 	
 	// Création du bonton de fermeture de la fenêtre
 	pbutton = gtk_button_new_with_label(gettext("Fermeture"));
 	g_signal_connect(G_OBJECT(pbutton), "clicked", G_CALLBACK(gtk_window_option_destroy_button), pwindow);
-	gtk_table_attach (GTK_TABLE(ptable), pbutton, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID(pgrid), pbutton, 0, 1, 1, 1);
 	
 	// Création de l'onglet programme
-	ptable = gtk_table_new(6, 3, FALSE);
+	pgrid = gtk_grid_new();
+    gtk_container_set_border_width(GTK_CONTAINER(pgrid), 12);
+    gtk_grid_set_row_spacing(GTK_GRID(pgrid), 6);
+    gtk_grid_set_column_spacing(GTK_GRID(pgrid), 6);
 	ptablabel = gtk_label_new(gettext("Programme"));
-	gtk_notebook_append_page_menu(GTK_NOTEBOOK(pnotebook), ptable, ptablabel, NULL);
+	gtk_notebook_append_page_menu(GTK_NOTEBOOK(pnotebook), pgrid, ptablabel, NULL);
 	// Dossier courant du programme
 	plabel = gtk_label_new(gettext("Dossier courant : "));
 	if (projet->programme.dossier_courant == NULL)
 		pbutton = gtk_button_new_with_label("...");
 	else
 		pbutton = gtk_button_new_with_label(projet->programme.dossier_courant);
+    gtk_widget_set_hexpand(pbutton, TRUE);
 	g_signal_connect(G_OBJECT(pbutton), "clicked", G_CALLBACK(entry_dossier_courant), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 0, 1, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pbutton, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID(pgrid), plabel, 0, 0, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pbutton, 1, 0, 1, 1);
 	// Paramètres d'environnement du programme
 	plabel = gtk_label_new(gettext("Environnement : "));
 	pentry = gtk_entry_new();
+    gtk_widget_set_hexpand(pentry, TRUE);
 	if (projet->programme.environnement != NULL)
 		gtk_entry_set_text(GTK_ENTRY(pentry), projet->programme.environnement);
 	g_signal_connect(G_OBJECT(pentry), "changed", G_CALLBACK(entry_environnement), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 1, 2, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pentry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pentry, 1, 1, 1, 1);
 	// Emplacement du programme
 	plabel = gtk_label_new(gettext("Emplacement : "));
 	if (projet->programme.nom_fichier == NULL)
 		pbutton = gtk_button_new_with_label("...");
 	else
 		pbutton = gtk_button_new_with_label(projet->programme.nom_fichier);
+    gtk_widget_set_hexpand(pbutton, TRUE);
 	g_signal_connect(G_OBJECT(pbutton), "clicked", G_CALLBACK(entry_nom_programme), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 2, 3, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pbutton, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pbutton, 1, 2, 1, 1);
 	// Arguments du programme
 	plabel = gtk_label_new(gettext("Arguments : "));
 	pentry = gtk_entry_new();
+    gtk_widget_set_hexpand(pentry, TRUE);
 	if (projet->programme.arguments != NULL)
 		gtk_entry_set_text(GTK_ENTRY(pentry), projet->programme.arguments);
 	g_signal_connect(G_OBJECT(pentry), "changed", G_CALLBACK(entry_arguments), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 3, 4, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pentry, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 3, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pentry, 1, 3, 1, 1);
 	
 	// Création de l'onglet Général
-	ptable = gtk_table_new(9, 2, FALSE);
+	pgrid = gtk_grid_new();
+    gtk_container_set_border_width(GTK_CONTAINER(pgrid), 12);
+    gtk_grid_set_row_spacing(GTK_GRID(pgrid), 6);
+    gtk_grid_set_column_spacing(GTK_GRID(pgrid), 6);
 	ptablabel = gtk_label_new(gettext("Général"));
-	gtk_notebook_append_page_menu(GTK_NOTEBOOK(pnotebook), ptable, ptablabel, NULL);
+	gtk_notebook_append_page_menu(GTK_NOTEBOOK(pnotebook), pgrid, ptablabel, NULL);
 	// --trace-children
 	plabel = gtk_label_new("--trace-children : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->general.trace_children);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_trace_children), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 0, 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 0, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 0, 1, 1);
 	// --track-fds
 	plabel = gtk_label_new("--track-fds : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->general.track_fds);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_track_fds), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 1, 2, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 1, 1, 1);
 	// --num-callers
 	plabel = gtk_label_new("--num-callers : ");
 	pspinbutton = gtk_spin_button_new_with_range(2, 999, 1);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(pspinbutton), projet->general.num_callers);
+    gtk_widget_set_hexpand(pspinbutton, TRUE);
 	g_signal_connect(G_OBJECT(pspinbutton), "value-changed", G_CALLBACK(spin_button_num_callers), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 2, 3, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pspinbutton, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pspinbutton, 1, 2, 1, 1);
 	// --error-limit
 	plabel = gtk_label_new("--error-limit : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->general.error_limit);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_error_limit), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 3, 4, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 3, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 3, 1, 1);
 	// --show-below-main
 	plabel = gtk_label_new("--show-below-main : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->general.show_below_main);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_show_below_main), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 4, 5, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 4, 5, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 4, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 4, 1, 1);
 	// --max-stackframe
 	plabel = gtk_label_new("--max-stackframe : ");
 	pspinbutton = gtk_spin_button_new_with_range(2, 2000000000, 1000000);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(pspinbutton), projet->general.max_stackframe);
+    gtk_widget_set_hexpand(pspinbutton, TRUE);
 	g_signal_connect(G_OBJECT(pspinbutton), "value-changed", G_CALLBACK(spin_button_max_stackframe), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 5, 6, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pspinbutton, 1, 2, 5, 6, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 5, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pspinbutton, 1, 5, 1, 1);
 	// --smc-check
 	plabel = gtk_label_new("--smc-check : ");
 	pcombobox = gtk_combo_box_text_new();
@@ -926,32 +948,38 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("tas"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("tout"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->general.smc_check);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_smc_check), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 6, 7, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 6, 7, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 6, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 6, 1, 1);
 	// --read-var-info
 	plabel = gtk_label_new("--read-var-info : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->general.read_var_info);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_read_var_info), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 7, 8, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 7, 8, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 7, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 7, 1, 1);
 	// --verbose
 	plabel = gtk_label_new("--verbose : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->general.verbose);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_verbose), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 8, 9, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 8, 9, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 8, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 8, 1, 1);
 	
 	// Création de l'onglet Memcheck
-	ptable = gtk_table_new(6, 2, FALSE);
+	pgrid = gtk_grid_new();
+    gtk_container_set_border_width(GTK_CONTAINER(pgrid), 12);
+    gtk_grid_set_row_spacing(GTK_GRID(pgrid), 6);
+    gtk_grid_set_column_spacing(GTK_GRID(pgrid), 6);
 	ptablabel = gtk_label_new("Memcheck");
-	gtk_notebook_append_page_menu(GTK_NOTEBOOK(pnotebook), ptable, ptablabel, NULL);
+	gtk_notebook_append_page_menu(GTK_NOTEBOOK(pnotebook), pgrid, ptablabel, NULL);
 	// --leak-check
 	plabel = gtk_label_new("--leak-check : ");
 	pcombobox = gtk_combo_box_text_new();
@@ -960,18 +988,20 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("complet"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->memcheck.leak_check);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_leak_check), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 0, 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 0, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 0, 1, 1);
 	// --show-possibly-lost
 	plabel = gtk_label_new("--show-possibly-lost : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->memcheck.show_possibly_lost);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_show_possibly_lost), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 1, 2, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 1, 1, 1);
 	// --leak-resolution
 	plabel = gtk_label_new("--leak-resolution : ");
 	pcombobox = gtk_combo_box_text_new();
@@ -979,36 +1009,40 @@ void main_options(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("moyen"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("haut"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->memcheck.leak_resolution);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_leak_resolution), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 2, 3, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 2, 1, 1);
 	// --show-reachable
 	plabel = gtk_label_new("--show-reachable : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->memcheck.show_reachable);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_show_reachable), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 3, 4, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 3, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 3, 1, 1);
 	// --undef-value-errors
 	plabel = gtk_label_new("--undef-value-errors : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->memcheck.undef_value_errors);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_undef_value_errors), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 4, 5, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 4, 5, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 4, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 4, 1, 1);
 	// --track-origins
 	plabel = gtk_label_new("--track-origins : ");
 	pcombobox = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("non"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pcombobox), gettext("oui"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pcombobox), projet->memcheck.track_origins);
+    gtk_widget_set_hexpand(pcombobox, TRUE);
 	g_signal_connect(G_OBJECT(pcombobox), "changed", G_CALLBACK(combo_box_track_origins), projet);
-	gtk_table_attach (GTK_TABLE (ptable), plabel, 0, 1, 5, 6, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (ptable), pcombobox, 1, 2, 5, 6, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+	gtk_grid_attach (GTK_GRID (pgrid), plabel, 0, 5, 1, 1);
+	gtk_grid_attach (GTK_GRID (pgrid), pcombobox, 1, 5, 1, 1);
 	
 	gtk_window_set_modal(GTK_WINDOW (pwindow), TRUE);
 	gtk_widget_show_all(pwindow);
