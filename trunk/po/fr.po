@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gvalgrind 0.0.0.2\n"
 "Report-Msgid-Bugs-To: devel@2lgc.org\n"
-"POT-Creation-Date: 2013-06-10 06:58+0200\n"
+"POT-Creation-Date: 2014-02-15 08:00+0100\n"
 "PO-Revision-Date: 2013-01-01 22:56+0100\n"
 "Last-Translator: LE GARREC Vincent <contact@2lgc.org>\n"
 "Language-Team: French\n"
@@ -11,52 +11,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-msgid "Ouvrir..."
-msgstr "Ouvrir..."
-
-msgid "Enregistrer..."
-msgstr "Enregistrer..."
-
-msgid ""
-"Des modifications ont été apportées au projet.\n"
-"Que souhaitez-vous faire ?"
-msgstr ""
-"Des modifications ont été apportées au projet.\n"
-"Que souhaitez-vous faire ?"
-
-msgid "Quitter"
-msgstr "Quitter"
-
-msgid "Impossible d'initialiser gtk\n"
-msgstr "Impossible d'initialiser gtk\n"
-
-msgid "Texte"
-msgstr "Texte"
-
-msgid "Nouveau"
-msgstr "Nouveau"
-
-msgid "Ouvrir projet valgrind..."
-msgstr "Ouvrir projet valgrind..."
-
-msgid "Enregistrer projet valgrind..."
-msgstr "Enregistrer projet valgrind..."
-
-msgid "Enregistrer sous projet valgrind..."
-msgstr "Enregistrer sous projet valgrind..."
-
-msgid "Fichier"
-msgstr "Fichier"
-
-msgid "Options..."
-msgstr "Options..."
-
-msgid "Exécuter valgrind"
-msgstr "Exécuter valgrind"
-
-msgid "Projet"
-msgstr "Projet"
 
 msgid "Erreur d'allocation mémoire.\n"
 msgstr "Erreur d'allocation mémoire.\n"
@@ -90,6 +44,78 @@ msgstr "Impossible d'ouvrir le fichier '%s'.\n"
 
 msgid "Le document est vide.\n"
 msgstr "Le document est vide.\n"
+
+msgid "Ouvrir..."
+msgstr "Ouvrir..."
+
+msgid "Annuler"
+msgstr ""
+
+#, fuzzy
+msgid "Ouvrir"
+msgstr "Ouvrir..."
+
+#, c-format
+msgid ""
+"Le rapport de valgrind est introuvable.\n"
+"L'exécution s'est-elle correctement déroulée ?\n"
+msgstr ""
+"Le rapport de valgrind est introuvable.\n"
+"L'exécution s'est-elle correctement déroulée ?\n"
+
+msgid "Options du projet"
+msgstr "Options du projet"
+
+msgid "Fermeture"
+msgstr "Fermeture"
+
+msgid "Programme"
+msgstr "Programme"
+
+msgid "Dossier courant : "
+msgstr "Dossier courant : "
+
+msgid "Environnement : "
+msgstr "Environnement : "
+
+msgid "Emplacement : "
+msgstr "Emplacement : "
+
+msgid "Arguments : "
+msgstr "Arguments : "
+
+msgid "Général"
+msgstr "Général"
+
+msgid "non"
+msgstr "non"
+
+msgid "oui"
+msgstr "oui"
+
+msgid "aucun"
+msgstr "aucun"
+
+msgid "tas"
+msgstr "tas"
+
+msgid "tout"
+msgstr "tout"
+
+msgid "sommaire"
+msgstr "sommaire"
+
+msgid "complet"
+msgstr "complet"
+
+msgid "bas"
+msgstr "bas"
+
+msgid "moyen"
+msgstr "moyen"
+
+msgid "haut"
+msgstr "haut"
 
 #, c-format
 msgid "15. Disclaimer of Warranty.\n"
@@ -265,64 +291,60 @@ msgstr "\t-h, --help : affiche le présent menu\n"
 msgid "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 msgstr "\t-w, --warranty : affiche les limites de garantie du logiciel\n"
 
-#, c-format
-msgid ""
-"Le rapport de valgrind est introuvable.\n"
-"L'exécution s'est-elle correctement déroulée ?\n"
+msgid "_Annuler"
 msgstr ""
-"Le rapport de valgrind est introuvable.\n"
-"L'exécution s'est-elle correctement déroulée ?\n"
 
-msgid "Options du projet"
-msgstr "Options du projet"
+#, fuzzy
+msgid "_Ouvrir"
+msgstr "Ouvrir..."
 
-msgid "Fermeture"
-msgstr "Fermeture"
+msgid "Enregistrer..."
+msgstr "Enregistrer..."
 
-msgid "Programme"
-msgstr "Programme"
+#, fuzzy
+msgid "_Enregistrer"
+msgstr "Enregistrer..."
 
-msgid "Dossier courant : "
-msgstr "Dossier courant : "
+msgid ""
+"Des modifications ont été apportées au projet.\n"
+"Que souhaitez-vous faire ?"
+msgstr ""
+"Des modifications ont été apportées au projet.\n"
+"Que souhaitez-vous faire ?"
 
-msgid "Environnement : "
-msgstr "Environnement : "
+msgid "Quitter"
+msgstr "Quitter"
 
-msgid "Emplacement : "
-msgstr "Emplacement : "
+#, fuzzy
+msgid "Enregistrer"
+msgstr "Enregistrer..."
 
-msgid "Arguments : "
-msgstr "Arguments : "
+msgid "Impossible d'initialiser gtk\n"
+msgstr "Impossible d'initialiser gtk\n"
 
-msgid "Général"
-msgstr "Général"
+msgid "Texte"
+msgstr "Texte"
 
-msgid "non"
-msgstr "non"
+msgid "Nouveau"
+msgstr "Nouveau"
 
-msgid "oui"
-msgstr "oui"
+msgid "Ouvrir projet valgrind..."
+msgstr "Ouvrir projet valgrind..."
 
-msgid "aucun"
-msgstr "aucun"
+msgid "Enregistrer projet valgrind..."
+msgstr "Enregistrer projet valgrind..."
 
-msgid "tas"
-msgstr "tas"
+msgid "Enregistrer sous projet valgrind..."
+msgstr "Enregistrer sous projet valgrind..."
 
-msgid "tout"
-msgstr "tout"
+msgid "Fichier"
+msgstr "Fichier"
 
-msgid "sommaire"
-msgstr "sommaire"
+msgid "Options..."
+msgstr "Options..."
 
-msgid "complet"
-msgstr "complet"
+msgid "Exécuter valgrind"
+msgstr "Exécuter valgrind"
 
-msgid "bas"
-msgstr "bas"
-
-msgid "moyen"
-msgstr "moyen"
-
-msgid "haut"
-msgstr "haut"
+msgid "Projet"
+msgstr "Projet"

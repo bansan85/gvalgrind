@@ -233,7 +233,7 @@ void entry_dossier_courant(GtkButton *button, Projet *projet)
 	GtkWidget	*pFileSelection;
 	gchar		*sChemin;
 	
-	pFileSelection = gtk_file_chooser_dialog_new(gettext("Ouvrir..."), NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+	pFileSelection = gtk_file_chooser_dialog_new(gettext("Ouvrir..."), NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, gettext("Annuler"), GTK_RESPONSE_CANCEL, gettext("Ouvrir"), GTK_RESPONSE_OK, NULL);
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
 	switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
@@ -290,7 +290,7 @@ void entry_nom_programme(GtkButton *button, Projet *projet)
 	GtkWidget	*pFileSelection;
 	gchar		*sChemin;
 	
-	pFileSelection = gtk_file_chooser_dialog_new(gettext("Ouvrir..."), NULL, GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+	pFileSelection = gtk_file_chooser_dialog_new(gettext("Ouvrir..."), NULL, GTK_FILE_CHOOSER_ACTION_OPEN, gettext("Annuler"), GTK_RESPONSE_CANCEL, gettext("Ouvrir"), GTK_RESPONSE_OK, NULL);
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
 	switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
