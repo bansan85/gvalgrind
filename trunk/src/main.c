@@ -61,7 +61,6 @@ void gtk_window_destroy(GtkWidget *pWidget __attribute__((unused)), Projet *proj
 void main_ouvrir(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 {
 	GtkWidget	*pFileSelection;
-	gchar		*sChemin;
 	
 	pFileSelection = gtk_file_chooser_dialog_new(gettext("Ouvrir..."), NULL, GTK_FILE_CHOOSER_ACTION_OPEN, gettext("_Annuler"), GTK_RESPONSE_CANCEL, gettext("_Ouvrir"), GTK_RESPONSE_OK, NULL);
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
@@ -70,6 +69,7 @@ void main_ouvrir(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	{
 		case GTK_RESPONSE_OK:
 		{
+	    gchar *sChemin;
 			// Recuperation du chemin
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
 			ouvrir_projet(sChemin, projet);
@@ -109,7 +109,6 @@ void main_enregistrer(GtkMenuItem *menuitem __attribute__((unused)), Projet *pro
 void main_enregistrer_sous(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 {
 	GtkWidget	*pFileSelection;
-	gchar		*sChemin;
 	
 	pFileSelection = gtk_file_chooser_dialog_new(gettext("Enregistrer..."), NULL, GTK_FILE_CHOOSER_ACTION_SAVE, gettext("_Annuler"), GTK_RESPONSE_CANCEL, gettext("_Enregistrer"), GTK_RESPONSE_OK, NULL);
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
@@ -118,6 +117,7 @@ void main_enregistrer_sous(GtkMenuItem *menuitem __attribute__((unused)), Projet
 	{
 		case GTK_RESPONSE_OK:
 		{
+	    gchar *sChemin;
 			// Recuperation du chemin
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
 			enregistrer_projet(sChemin, projet);
@@ -169,10 +169,10 @@ void tree_view_row_expanded(GtkTreeView *tree_view, GtkTreeIter *iter, GtkTreePa
  */
 gboolean gtk_window_demande_confirmation(GtkWidget *widget __attribute__((unused)), GdkEvent *event __attribute__((unused)), Projet *projet)
 {
-	GtkWidget	*dialog = NULL;
 	GtkResponseType	response = GTK_RESPONSE_CANCEL;
 	if (projet->modifie != 0)
 	{
+	  GtkWidget	*dialog;
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, gettext("Des modifications ont été apportées au projet.\nQue souhaitez-vous faire ?"));
 		gtk_dialog_add_buttons(GTK_DIALOG(dialog), gettext("Quitter"), GTK_RESPONSE_CLOSE, gettext("Enregistrer"), GTK_RESPONSE_ACCEPT, gettext("Annuler"), GTK_RESPONSE_CANCEL, NULL);
 		gtk_window_set_title(GTK_WINDOW(dialog), gettext("Quitter"));
@@ -182,10 +182,7 @@ gboolean gtk_window_demande_confirmation(GtkWidget *widget __attribute__((unused
 		{
 			// On annule la fermeture de l'application
 			case GTK_RESPONSE_CANCEL : 
-			{
 				return TRUE;
-				break;
-			}
 			// On ferme l'application en enregistrant les modifications
 			case GTK_RESPONSE_ACCEPT :
 			{
@@ -194,20 +191,13 @@ gboolean gtk_window_demande_confirmation(GtkWidget *widget __attribute__((unused
 				else
 					main_enregistrer_sous(NULL, projet);
 				return FALSE;
-				break;
 			}
 			// On ferme l'application sans enregistrer les modifications
 			case GTK_RESPONSE_CLOSE :
-			{
 				return FALSE;
-				break;
-			}
 			// On annule la fermeture de l'application
 			default :
-			{
 				return TRUE;
-				break;
-			}
 		}
 	}
 	else

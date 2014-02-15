@@ -670,7 +670,7 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 				{
 					int		kind = 0;
 					xmlNodePtr	n2 = xmlGetLastChild(n1), parcours1;
-					xmlChar		*contenu, *nom_erreur;
+					xmlChar		*nom_erreur;
 					int		trouve = 0;
 					
 					// On commence par rechercher la nature de l'erreur qui est contenu dans le noeud "kind"
@@ -702,6 +702,8 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 							{
 								if (strcmp((char*)parcours1->name, "erreur") == 0)
 								{
+                  xmlChar *contenu;
+                  
 									contenu = xmlGetProp(parcours1, BAD_CAST "nom");
 									if ((contenu != NULL) && (parcours1->name != NULL) && (strcmp((char*)nom_erreur, (char *)contenu) == 0))
 										trouve = 1;
@@ -821,7 +823,6 @@ int converti_rapport_valgrind(char *nom_fichier, Projet *projet)
 										{
 											parcours1 = parcours2;
 										}
-										parcours2 = parcours1->children;
 										
 										// On vérifie si parmi les noeuds enfants l'un contient la même ligne et le même nom de fonction
 										trouve = 0;
