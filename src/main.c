@@ -63,7 +63,7 @@ void main_ouvrir(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet)
 	GtkWidget	*pFileSelection;
 	gchar		*sChemin;
 	
-	pFileSelection = gtk_file_chooser_dialog_new(gettext("Ouvrir..."), NULL, GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+	pFileSelection = gtk_file_chooser_dialog_new(gettext("Ouvrir..."), NULL, GTK_FILE_CHOOSER_ACTION_OPEN, gettext("_Annuler"), GTK_RESPONSE_CANCEL, gettext("_Ouvrir"), GTK_RESPONSE_OK, NULL);
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
 	switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
@@ -111,7 +111,7 @@ void main_enregistrer_sous(GtkMenuItem *menuitem __attribute__((unused)), Projet
 	GtkWidget	*pFileSelection;
 	gchar		*sChemin;
 	
-	pFileSelection = gtk_file_chooser_dialog_new(gettext("Enregistrer..."), NULL, GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
+	pFileSelection = gtk_file_chooser_dialog_new(gettext("Enregistrer..."), NULL, GTK_FILE_CHOOSER_ACTION_SAVE, gettext("_Annuler"), GTK_RESPONSE_CANCEL, gettext("_Enregistrer"), GTK_RESPONSE_OK, NULL);
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
 	switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
@@ -174,7 +174,7 @@ gboolean gtk_window_demande_confirmation(GtkWidget *widget __attribute__((unused
 	if (projet->modifie != 0)
 	{
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, gettext("Des modifications ont été apportées au projet.\nQue souhaitez-vous faire ?"));
-		gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_QUIT, GTK_RESPONSE_CLOSE, GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+		gtk_dialog_add_buttons(GTK_DIALOG(dialog), gettext("Quitter"), GTK_RESPONSE_CLOSE, gettext("Enregistrer"), GTK_RESPONSE_ACCEPT, gettext("Annuler"), GTK_RESPONSE_CANCEL, NULL);
 		gtk_window_set_title(GTK_WINDOW(dialog), gettext("Quitter"));
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
