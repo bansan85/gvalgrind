@@ -8,3 +8,6 @@ AM_CFLAGS = @CFLAGS@ -DLOCALEDIR=\""@localedir@"\" -DDATADIR=\""@datadir@/2lgc"\
 export AM_CFLAGS
 
 EXTRA_DIST = config.rpath  config.rpath
+
+cppcheck :
+	$(MAKE) cppcheck -C src &> cppcheck.log

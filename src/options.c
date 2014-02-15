@@ -730,7 +730,7 @@ void main_valgrind(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet
 	char c;
 	while(fread(&c, sizeof(char), 1, tmp))
 		printf("%c", (char)c);
-	fclose(tmp);
+	pclose(tmp);
 	free(commande);
 	
 	if (file_exists(P_tmpdir"/rapport.xml") != 0)
