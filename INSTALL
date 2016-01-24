@@ -15,8 +15,7 @@ Durant le processus d'installation :
 
 
 Pour compiler et installer l'application, il suffit de lancer les commandes suivantes :
-./clean_config
-
+git clean -Xdf
 gettextize -c -f --no-changelog
 
 sed -i 's#po/Makefile.in po/Makefile.in#po/Makefile.in#g' configure.ac
