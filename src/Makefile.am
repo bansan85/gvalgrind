@@ -7,7 +7,8 @@ gvalgrind_SOURCES	= main.c \
 			  fonctions.c
 
 gvalgrind_LDADD		= @XML_LIBS@ @GTK_LIBS@
-gvalgrind_CPPFLAGS	= @XML_CPPFLAGS@ @GTK_CFLAGS@
+gvalgrind_CPPFLAGS	= @XML_CPPFLAGS@
+gvalgrind_CFLAGS	= @GTK_CFLAGS@
 
 cppcheck :
 	cppcheck -v --inconclusive --enable=all --report-progress $(DEFAULT_INCLUDES) $(gvalgrind_SOURCES)

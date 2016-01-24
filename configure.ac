@@ -27,6 +27,82 @@ AM_PATH_XML2($LIBXML_REQUIRED_VERSION, :, AC_MSG_ERROR(Test for libXML failed.))
 AM_GNU_GETTEXT([external])
 ALL_LINGUAS="fr"
 
+for NEW_FLAG in \
+    -fmax-errors=10 \
+    -fstack-protector-all \
+    -fstrict-overflow \
+    -Wall \
+    -Wcast-align \
+    -Wcast-qual \
+    -Wconditionally-supported \
+    -Wconversion \
+    -Wextra \
+    -Wfloat-equal \
+    -Wformat=2 \
+    -Wformat-nonliteral \
+    -Wformat-security \
+    -Wformat-extra-args\
+    -Wformat-zero-length \
+    -Wformat-y2k \
+    -Wformat-signedness \
+    -Winit-self \
+    -Winline \
+    -Wlogical-op \
+    -Wmissing-format-attribute \
+    -Wno-comment \
+    -Wno-error=deprecated-declarations \
+    -Wno-overloaded-virtual \
+    -Wno-unused-parameter \
+    -Wold-style-cast \
+    -Wpacked \
+    -Wpedantic \
+    -Wpointer-arith \
+    -Wredundant-decls \
+    -Wshadow \
+    -Wsign-conversion \
+    -Wstrict-aliasing=1 \
+    -fstrict-aliasing \
+    -Wstrict-overflow=5 \
+    -Wswitch-default \
+    -Wswitch-enum \
+    -Wtrampolines \
+    -Wundef \
+    -Wuninitialized \
+    -Wunused-parameter \
+    -Wuseless-cast \
+    -Wsuggest-attribute=pure \
+    -Wsuggest-attribute=const \
+    -Wsuggest-attribute=noreturn \
+    -Wsuggest-attribute=format \
+    -Wmissing-format-attribute \
+    -Wsuggest-final-types \
+    -Wsuggest-final-methods \
+    -Wwrite-strings \
+    -Wzero-as-null-pointer-constant \
+    -Wctor-dtor-privacy \
+    -Wc++11-compat \
+    -Weffc++ \
+    -Wstrict-null-sentinel \
+    -Woverloaded-virtual \
+    -Weverything \
+    -Winconsistent-missing-override
+do
+  AC_MSG_CHECKING([if $CC accepts $NEW_FLAG])
+  OLD_CFLAGS="$CFLAGS"
+  CFLAGS="$CFLAGS $NEW_FLAG -Werror"
+#AC_COMPILE_IFELSE utilise CFLAGS pas AM_CFLAGS
+  AC_COMPILE_IFELSE([AC_LANG_SOURCE(
+    [void foo(void); void foo(void) { }])], [
+    AM_CFLAGS="$AM_CFLAGS $NEW_FLAG"
+    AC_MSG_RESULT([yes])
+  ], [
+    AC_MSG_RESULT([no])
+  ])
+  CFLAGS="$OLD_CFLAGS"
+done
+AC_SUBST(CFLAGS)
+
+
 # Checks for libraries.
 
 # Checks for header files.
