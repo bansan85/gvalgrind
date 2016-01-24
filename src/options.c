@@ -358,7 +358,10 @@ void main_valgrind(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet
 	strcpy(commande, "");
 	
 	if (projet->programme.dossier_courant != NULL)
-		chdir(projet->programme.dossier_courant);
+  {
+    if (chdir(projet->programme.dossier_courant) != 0)
+      return;
+  }
 	
 	if (projet->programme.environnement != NULL)
 	{
@@ -419,7 +422,7 @@ void main_valgrind(GtkMenuItem *menuitem __attribute__((unused)), Projet *projet
 		}
 	}
 	
-	caractere = malloc(sizeof(char)*(strlen("--num-callers=10 ")+1));
+	caractere = malloc(sizeof(char)*(strlen("--num-callers=XXX ")+1));
 	if (caractere == NULL)
 		BUGTEXTE(, gettext("Erreur d'allocation mémoire.\n"));
 	sprintf(caractere, "--num-callers=%d ", projet->general.num_callers);
