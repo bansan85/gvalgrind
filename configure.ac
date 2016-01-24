@@ -2,11 +2,15 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT(gvalgrind, 0.0.0.2, devel@2lgc.org, gvalgrind, http://2lgc.org)
-AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([src/fonctions.c])
+
 AC_CONFIG_HEADERS([config.h])
+
+AC_INIT(gvalgrind, 0.0.0.2, devel@2lgc.org, gvalgrind, http://2lgc.org)
+AC_CONFIG_SRCDIR([src/main.c])
+AM_INIT_AUTOMAKE
 AC_CONFIG_MACRO_DIR([m4])
+
+LT_INIT
 
 # Checks for programs.
 AC_PROG_CC
