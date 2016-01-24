@@ -214,13 +214,15 @@ int ajout_erreur_recursif(xmlNodePtr racine, GtkTreeStore *tree_store, GtkTreeIt
 					gtk_tree_store_append(tree_store, &iter, &iter_parent);
 					
 					// On défini le contenu de la ligne : fonction (ligne)
-					texte_compatible_markup = remplace_texte((char *)contenu_fn, "<", "&lt;");
+          texte_compatible_markup = remplace_texte((char *)contenu_fn, "&", "&amp;");
+          xmlFree(contenu_fn);
+          contenu_fn = (xmlChar*)remplace_texte(texte_compatible_markup, "<", "&lt;");
+          free(texte_compatible_markup);
+          texte_compatible_markup = remplace_texte((char *)contenu_fn, ">", "&gt;");
 					free(contenu_fn);
-					contenu_fn = (xmlChar*)remplace_texte(texte_compatible_markup, ">", "&gt;");
-					free(texte_compatible_markup);
-					contenu_cat2 = malloc(sizeof(char)*(strlen((char *)contenu_ligne)+strlen((char *)contenu_fn)+strlen("<span bgcolor=\"#000000\"> ()</span>")+1));
+          contenu_cat2 = malloc(sizeof(char)*(strlen((char *)contenu_ligne)+strlen(texte_compatible_markup)+strlen("<span bgcolor=\"#000000\"> ()</span>")+1));
 					strcpy(contenu_cat2, "<span bgcolor=\"#B0B0B0\">");
-					strcat(contenu_cat2, (char *)contenu_fn);
+          strcat(contenu_cat2, (char *)texte_compatible_markup);
 					strcat(contenu_cat2, " (");
 					strcat(contenu_cat2, (char *)contenu_ligne);
 					strcat(contenu_cat2, ")</span>");
@@ -251,7 +253,6 @@ int ajout_erreur_recursif(xmlNodePtr racine, GtkTreeStore *tree_store, GtkTreeIt
 					gtk_tree_store_set(tree_store, &iter, 0, contenu_cat2, -1);
 					
 					xmlFree(contenu_ligne);
-					xmlFree(contenu_fn);
 					free(contenu_cat2);
 					if (ajout_erreur_recursif(n1, tree_store, &iter) != 0)
 						BUG(-5);
