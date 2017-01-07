@@ -1,3 +1,7 @@
 Démarrage :
 La compilation et l'installation du programme s'effectue en suivant la procédure décrite dans le fichier INSTALL.
-L'application se lance en lançant le programme codegui.
+L'application se lance en lançant le programme gvalgrind.
+
+How to start:
+Instruction to compile are in INSTALL file.
+Software to run is ./src/gvalgrind
