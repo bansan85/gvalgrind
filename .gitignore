@@ -22,6 +22,7 @@ Makefile
 /po/POTFILES
 /po/Rules-quot
 /po/*.sed
+/po/*.mo
 /po/*.header
 /po/*.gmo
 /po/*.pot
